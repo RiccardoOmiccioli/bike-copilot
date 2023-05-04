@@ -1,0 +1,14 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "description": "bike-copilot-frontend",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Riccardo Omiccioli",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

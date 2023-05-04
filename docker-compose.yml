@@ -1,0 +1,12 @@
+version: '3.1'
+
+services:
+
+  frontend:
+    container_name: bike-copilot-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "127.0.0.1:3020:3000"
