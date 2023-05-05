@@ -5,7 +5,7 @@ services:
   frontend:
     container_name: bike-copilot-frontend
     build:
-      context: ./frontend
+      context: ./bike-copilot-frontend
       dockerfile: Dockerfile
     restart: always
     ports:
