@@ -20,7 +20,7 @@ jobs:
         include:
           - dockerfile: ./frontend/Dockerfile
             image: ghcr.io/${{ github.repository }}-frontend
-            context: ./frontend
+            context: ./bike-copilot-frontend
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3      
