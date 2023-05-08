@@ -1,0 +1,13 @@
+{
+    "name": "bike-copilot",
+    "version": "0.0.0",
+    "scripts": {
+      "start": "docker-compose up --build --remove-orphans",
+      "start-d": "docker-compose up --build --remove-orphans --detach",
+      "start-auto": "docker-compose up -f docker-compose-auto.yml --build --remove-orphans --detach",
+      "stop": "docker-compose down",
+      "stop-clean": "npm stop && npm run clean-images",
+      "restart": "npm stop && npm run clean-images && npm start",
+      "clean-images": "docker image prune -af"
+    }
+  }
