@@ -3,10 +3,45 @@ version: '3.1'
 services:
 
   frontend:
-    container_name: bike-copilot-frontend
+    container_name: ${FRONTEND_CONTAINER_NAME:-frontend}
     build:
       context: ./bike-copilot-frontend
       dockerfile: Dockerfile
     restart: always
     ports:
-      - "127.0.0.1:3020:3000"
+      - "${SERVICE_HOSTNAME:-127.0.0.1}:${EXPOSED_FRONTEND_PORT:-3000}:3000"
+
+  database-backend:
+    container_name: ${DATABASE_BACKEND_CONTAINER_NAME:-database-backend}
+    build:
+      context: ./bike-copilot-database
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "${DATABASE_USERNAME:-root}"
+      MONGO_INITDB_ROOT_PASSWORD: "${DATABASE_PASSWORD:-password}"
+    ports:
+      - "${SERVICE_HOSTNAME:-127.0.0.1}:${EXPOSED_DATABASE_BACKEND_PORT_FIRST:-27017}-${EXPOSED_DATABASE_BACKEND_PORT_LAST:-27019}:27017-27019"
+    volumes:
+      - ./bike-copilot-database/init/data:/docker-entrypoint-initdb.d/
+    networks:
+      - bike-copilot-network
+
+  database-frontend:
+    container_name: ${DATABASE_FRONTEND_CONTAINER_NAME:-database-frontend}
+    depends_on:
+      - database-backend
+    links:
+      - database-backend
+    image: mongo-express
+    restart: always
+    ports:
+      - "${SERVICE_HOSTNAME:-127.0.0.1}:${EXPOSED_DATABASE_FRONTEND_PORT:-8081}:8081"
+    environment:
+      ME_CONFIG_MONGODB_URL: "mongodb://${DATABASE_USERNAME:-root}:${DATABASE_PASSWORD:-password}@database-backend:27017/"
+    networks:
+      - bike-copilot-network
+
+networks:
+  bike-copilot-network:
+    driver: bridge
