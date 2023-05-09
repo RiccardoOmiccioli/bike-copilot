@@ -5,43 +5,52 @@ services:
   frontend:
     container_name: ${FRONTEND_CONTAINER_NAME:-frontend}
     build:
-      context: ./bike-copilot-frontend
+      context: ./frontend
       dockerfile: Dockerfile
     restart: always
+    environment:
+      VITE_DOCKER_ENVIRONMENT: >
+        {
+          "MAP_TOKEN": "${MAP_TOKEN}",
+          "MAP_STYLE": "${MAP_STYLE}"
+        }
     ports:
       - "${SERVICE_HOSTNAME:-127.0.0.1}:${EXPOSED_FRONTEND_PORT:-3000}:3000"
 
-  database-backend:
-    container_name: ${DATABASE_BACKEND_CONTAINER_NAME:-database-backend}
+  backend:
+    container_name: ${BACKEND_CONTAINER_NAME:-backend}
+    depends_on:
+      - database
     build:
-      context: ./bike-copilot-database
+      context: ./backend
       dockerfile: Dockerfile
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: "${DATABASE_USERNAME:-root}"
-      MONGO_INITDB_ROOT_PASSWORD: "${DATABASE_PASSWORD:-password}"
+      DOCKER_ENVIRONMENT: >
+        {
+          "FRONTEND": "${SERVICE_HOSTNAME:-127.0.0.1}:${EXPOSED_FRONTEND_PORT:-3000}",
+          "DATABASE": "${DATABASE_CONTAINER_NAME:-database}:27017",
+          "DATABASE_USERNAME": "${DATABASE_USERNAME:-admin}",
+          "DATABASE_PASSWORD": "${DATABASE_PASSWORD:-password}",
+          "DATABASE_NAME": "${DATABASE_NAME:-database}"
+        }
     ports:
-      - "${SERVICE_HOSTNAME:-127.0.0.1}:${EXPOSED_DATABASE_BACKEND_PORT_FIRST:-27017}-${EXPOSED_DATABASE_BACKEND_PORT_LAST:-27019}:27017-27019"
-    volumes:
-      - ./bike-copilot-database/init/data:/docker-entrypoint-initdb.d/
-    networks:
-      - bike-copilot-network
+      - "${SERVICE_HOSTNAME:-127.0.0.1}:${EXPOSED_BACKEND_PORT:-3001}:3001"
 
-  database-frontend:
-    container_name: ${DATABASE_FRONTEND_CONTAINER_NAME:-database-frontend}
-    depends_on:
-      - database-backend
-    links:
-      - database-backend
-    image: mongo-express
+  database:
+    container_name: ${DATABASE_CONTAINER_NAME:-database}
+    image: mongo:4
     restart: always
-    ports:
-      - "${SERVICE_HOSTNAME:-127.0.0.1}:${EXPOSED_DATABASE_FRONTEND_PORT:-8081}:8081"
     environment:
-      ME_CONFIG_MONGODB_URL: "mongodb://${DATABASE_USERNAME:-root}:${DATABASE_PASSWORD:-password}@database-backend:27017/"
-    networks:
-      - bike-copilot-network
+      MONGODB_INITDB_USERNAME: "${DATABASE_USERNAME:-admin}"
+      MONGODB_INITDB_PASSWORD: "${DATABASE_PASSWORD:-password}"
+      DATABASE_USERNAME: "${DATABASE_USERNAME:-admin}"
+      DATABASE_PASSWORD: "${DATABASE_PASSWORD:-password}"
+      DATABASE_NAME: "${DATABASE_NAME:-database}"
+    ports:
+      - "${SERVICE_HOSTNAME:-127.0.0.1}:${EXPOSED_DATABASE_PORT_FIRST:-27017}-${EXPOSED_DATABASE_PORT_LAST:-27019}:27017-27019"
+    expose:
+      - "27017"
+    volumes:
+      - "./database/init/:/docker-entrypoint-initdb.d/"
 
-networks:
-  bike-copilot-network:
-    driver: bridge

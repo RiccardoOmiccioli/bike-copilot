@@ -6,7 +6,7 @@ services:
     image: ghcr.io/riccardoomiccioli/bike-copilot-frontend:main
     restart: always
     ports:
-      - "127.0.0.1:3020:3000"
+      - "127.0.0.1:${EXPOSED_FRONTEND_PORT:-3000}:3000"
 
   watchtower:
     image: index.docker.io/containrrr/watchtower:latest
@@ -14,4 +14,3 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ~/.docker/config.json:/config.json
     command: --interval 30
-
