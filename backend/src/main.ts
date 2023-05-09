@@ -9,7 +9,7 @@ type Application = express.Express;
 const app: Application = express();
 
 app.use(cors({
-  origin: CorsOrigins([`http://${Environment.APPLICATION_FRONTEND_HOST}`]),
+  origin: CorsOrigins([`http://${Environment.FRONTEND_HOST}`]),
   credetials: true,
   optionsSuccessStatus: 200,
   exposedHeaders: ['set-cookie'],
@@ -22,6 +22,6 @@ app.use(express.json());
 routers.forEach((router) => app.use(router));
 app.use(ApplicationHandlers.notFound);
 
-app.listen(Environment.APPLICATION_BACKEND_PORT, Environment.APPLICATION_BACKEND_HOST, () => {
-  console.log(`Server is listening at ${Environment.APPLICATION_BACKEND_HOST}:${Environment.APPLICATION_BACKEND_PORT}`);
+app.listen(Environment.BACKEND_PORT, Environment.BACKEND_HOST, () => {
+  console.log(`Server is listening at ${Environment.BACKEND_HOST}:${Environment.BACKEND_PORT}`);
 }).on("error", (err: {message: any;}) => console.error(err.message));

@@ -1,8 +1,9 @@
-name: publish
+name: publish-release-image
 
 on:
   push:
-    branches: ['main']
+    branches:
+      - 'main'
 
 env:
   REGISTRY: ghcr.io
@@ -18,12 +19,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dockerfile: ./bike-copilot-frontend/Dockerfile
+          - dockerfile: ./frontend/Dockerfile
             image: ghcr.io/${{ github.repository }}-frontend
-            context: ./bike-copilot-frontend
+            context: ./frontend
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3      
+        uses: actions/checkout@v3
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
