@@ -1,9 +1,20 @@
-<script setup lang="ts">
-import { ref } from 'vue'
+<script lang="ts">
 
-defineProps<{ msg: string }>()
+  import axios, {AxiosError} from "axios";
+  import { defineComponent } from "vue";
 
-const count = ref(0)
+  const count = 0
+
+  export default defineComponent({
+    mounted(){
+      console.log("mounted");
+      axios.get(`http://localhost:3021/`)
+            .then(response => {
+              console.log(response);
+            })
+            .catch(error => { console.log("Loading profile error: " + error.response + "\tMessage: " + error.response?.data); });
+    }
+  });
 </script>
 
 <template>
