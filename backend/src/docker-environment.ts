@@ -11,10 +11,12 @@ export const DOCKER_ENVIRONMENT : Optional<DockerEnvironment> =
 interface DockerEnvironment {
     /** The hostname and port of the application frontend. */
     readonly FRONTEND: string;
-    /** The hostname and port of the database backend. */
+    /** The hostname and port of the database. */
     readonly DATABASE: string,
-    /** The username needed to access the database backend. */
+    /** The username needed to access the database. */
     readonly DATABASE_USERNAME: string,
-    /** The password needed to access the database backend. */
+    /** The password needed to access the database. */
     readonly DATABASE_PASSWORD: string,
+    /** The name of the database. */
+    readonly DATABASE_NAME: string,
 }

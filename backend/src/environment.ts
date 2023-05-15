@@ -12,12 +12,14 @@ export class Environment {
     public static readonly BACKEND_PORT: number = 3001;
     /** The host for the frontend application. */
     public static readonly FRONTEND_HOST: string = DOCKER_ENVIRONMENT.map(env => env.FRONTEND).getOrDefault("127.0.0.1:3000")
-    /** The host for the backend database. */
+    /** The host for the database. */
     public static readonly DATABASE_HOST: string = DOCKER_ENVIRONMENT.map(env => env.DATABASE).getOrDefault("127.0.0.1:27017");
-    /** The username used to access the backend database. */
+    /** The username used to access the database. */
     public static readonly DATABASE_USERNAME: string = DOCKER_ENVIRONMENT.map(env => env.DATABASE_USERNAME).getOrDefault("admin");
-    /** The password used to access the backend database. */
+    /** The password used to access the database. */
     public static readonly DATABASE_PASSWORD: string = DOCKER_ENVIRONMENT.map(env => env.DATABASE_PASSWORD).getOrDefault("password");
+    /** The name of the database. */
+    public static readonly DATABASE_NAME: string = DOCKER_ENVIRONMENT.map(env => env.DATABASE_NAME).getOrDefault("database");
     /** The duration in milliseconds of a new session before expiration. */
     public static readonly SESSION_DURATION: number = 1 * Time.Days; //30 * Time.Minutes;
     /**
