@@ -8,6 +8,12 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     restart: always
+    environment:
+      VITE_DOCKER_ENVIRONMENT: >
+        {
+          "MAP_TOKEN": "${MAP_TOKEN}",
+          "MAP_STYLE": "${MAP_STYLE}"
+        }
     ports:
       - "${SERVICE_HOSTNAME:-127.0.0.1}:${EXPOSED_FRONTEND_PORT:-3000}:3000"
 
