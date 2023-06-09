@@ -1,9 +1,9 @@
 name: publish-release-image
 
 on:
-  push:
+  create:
     tags:
-      - '*.*.*'
+      - '*'
       
 env:
   REGISTRY: ghcr.io
