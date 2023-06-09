@@ -4,6 +4,7 @@ import MapComponent from "./components/MapComponent.vue"
 
 <template>
   <MapComponent/>
+  <p>Workflow test</p>
 </template>
 
 <style scoped>
