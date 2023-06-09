@@ -2,9 +2,9 @@ name: publish-release-image
 
 on:
   push:
-    branches:
-      - 'main'
-
+    tags:
+      - '*'
+      
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
@@ -42,5 +42,5 @@ jobs:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{  github.ref_name }}
           labels: ${{ steps.meta.outputs.labels }}
