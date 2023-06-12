@@ -1,9 +1,10 @@
 name: publish-release-image
 
 on:
-  create:
-    tags:
-      - '*'
+  workflow_run:
+    workflows: [Bump version]
+    types:
+      - completed
       
 env:
   REGISTRY: ghcr.io
