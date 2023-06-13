@@ -71,4 +71,4 @@ jobs:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           push: true
-          tags: ghcr.io/${{ needs.push-tag.outputs.tag }}
+          tags: ${{ matrix.image }}-${{ needs.push-tag.outputs.tag }}
