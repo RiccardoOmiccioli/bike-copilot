@@ -16,7 +16,7 @@ jobs:
 
   push-tag:
     name: Push Tag
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     outputs:
@@ -46,7 +46,7 @@ jobs:
         tag: ${{ needs.push-tag.outputs.tag }}
         
   build-and-push-image:
-    name: Build and Push Image
+    name: Build and push image
     needs: [create-release, push-tag]
     runs-on: ubuntu-latest
     permissions:
@@ -69,7 +69,7 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ env.GITHUB_USER }}
           password: ${{ env.GITHUB_TOKEN }}
-      - name: set lower case repository name
+      - name: Set lower case repository name
         run: |
           echo "REPOSITORY_LC=${REPOSITORY,,}" >>${GITHUB_ENV}
       - name: Build and push Docker image
