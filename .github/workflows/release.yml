@@ -10,6 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   push-tag:
@@ -25,7 +26,6 @@ jobs:
     - name: Bump version and push tag
       uses: anothrNick/github-tag-action@1.64.0 
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
         WITH_V: false
         PRERELEASE: false
   create-release:
@@ -38,10 +38,8 @@ jobs:
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
+          tag_name: jobs.push-tag.outputs.new_tag
           release_name: Release ${{ github.ref }}
           body: ""
           draft: false
