@@ -70,5 +70,5 @@ jobs:
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
-          push: ${{ github.ref_type == 'tag' }}
+          push: true
           tags: 010
