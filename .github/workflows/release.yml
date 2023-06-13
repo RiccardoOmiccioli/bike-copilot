@@ -8,7 +8,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  REPOSITORY: ${{ github.repository }}
   GITHUB_USER: ${{ github.repository_owner }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -65,10 +65,15 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ env.GITHUB_USER }}
           password: ${{ env.GITHUB_TOKEN }}
+      - name: set lower case repository name
+        run: |
+          echo "REPOSITORY_LC=${REPOSITORY,,}" >>${GITHUB_ENV}
+        env:
+          OWNER: '${{ github.repository_owner }}'
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           push: true
-          tags: ${{ matrix.image }}-${{ needs.push-tag.outputs.tag }}
+          tags: ghcr.io/${{ env.REPOSITORY_LC }}:${{ needs.push-tag.outputs.tag }}
