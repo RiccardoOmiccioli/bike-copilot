@@ -13,6 +13,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
+
   push-tag:
     name: Push Tag
     runs-on: ubuntu-22.04
@@ -30,23 +31,21 @@ jobs:
         uses: anothrNick/github-tag-action@1.64.0 
         env:
           WITH_V: false
-          PRERELEASE: false
+          INITIAL_VERSION: 0.1.0
+          
   create-release:
-    name: Create Release
     needs: push-tag
+    name: Create Release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        with:
-          tag_name: ${{ needs.push-tag.outputs.tag }}
-          release_name: Release ${{ github.ref }}
-          body: ""
-          draft: false
-          prerelease: false
+    - uses: actions/checkout@v3
+    - name: Create a Release
+      uses: elgohr/Github-Release-Action@v4
+      env:
+        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+      with:
+        title: ${{ needs.push-tag.outputs.tag }
+        
   build-and-push-image:
     name: Build and Push Image
     needs: create-release
