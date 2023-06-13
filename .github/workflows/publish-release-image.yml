@@ -1,10 +1,11 @@
 name: publish-release-image
 
 on:
-  workflow_run:
-    workflows: [Bump version]
+  pull_request:
     types:
-      - completed
+      - closed
+    branches:
+      - main
       
 env:
   REGISTRY: ghcr.io
@@ -43,5 +44,4 @@ jobs:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           push: true
-          tags: ${{  github.ref }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: 0.1.0
