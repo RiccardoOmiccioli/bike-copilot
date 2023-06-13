@@ -43,9 +43,10 @@ jobs:
     - uses: ncipollo/release-action@v1
       with:
         tag: ${{ needs.push-tag.outputs.tag }}
+        
   build-and-push-image:
     name: Build and Push Image
-    needs: create-release
+    needs: [create-release, push-tag]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -77,6 +78,4 @@ jobs:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-
+          tags: ${{ needs.push-tag.outputs.tag }}
