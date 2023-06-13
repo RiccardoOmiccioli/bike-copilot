@@ -11,7 +11,43 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
+  push-tag:
+    name: Push Tag
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.sha }}
+        fetch-depth: '0'
+    - name: Bump version and push tag
+      uses: anothrNick/github-tag-action@1.64.0 
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        WITH_V: false
+        PRERELEASE: false
+  create-release:
+    name: Create Release
+    needs: push-tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: ""
+          draft: false
+          prerelease: false
   build-and-push-image:
+    name: Build and Push Image
+    needs: create-release
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -45,19 +81,4 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-  push-tag:
-    needs: build-and-push-image
-    runs-on: ubuntu-22.04
-    permissions:
-      contents: write
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        ref: ${{ github.sha }}
-        fetch-depth: '0'
-    - name: Bump version and push tag
-      uses: anothrNick/github-tag-action@1.64.0 
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-        WITH_V: false
-        PRERELEASE: false
+
