@@ -54,7 +54,7 @@ jobs:
       matrix:
         include:
           - dockerfile: ./frontend/Dockerfile
-            image: ghcr.io/${{ github.repository }}-frontend-${{ needs.push-tag.outputs.tag }}
+            image: ghcr.io/${{ github.repository }}-frontend
             context: ./frontend
     steps:
       - name: Checkout repository
@@ -71,4 +71,4 @@ jobs:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           push: true
-          tags: ghcr.io/riccardoomiccioli/bike-copilot-frontend:main
+          tags: ghcr.io/riccardoomiccioli/bike-copilot-frontend:${{ needs.push-tag.outputs.tag }}
