@@ -77,6 +77,6 @@ jobs:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ needs.push-tag.outputs.tag }}
           labels: ${{ steps.meta.outputs.labels }}
 
