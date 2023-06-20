@@ -17,8 +17,8 @@ services:
     expose:
       - "27017"
     volumes:
-      - "./database/init/:/docker-entrypoint-initdb.d/"  
-      
+      - "./database/init/:/docker-entrypoint-initdb.d/"
+
   database-frontend:
     container_name: ${DATABASE_FRONTEND_CONTAINER_NAME:-database-frontend}
     image: mongo-express
