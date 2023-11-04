@@ -16,6 +16,14 @@
                 attributionControl: false
             });
             map.addControl(new maplibregl.AttributionControl({compact: true, customAttribution: "Maps © Thunderforest, Data © OpenStreetMap contributors"}));
+            map.addControl(
+                new maplibregl.GeolocateControl({
+                    positionOptions: {
+                        enableHighAccuracy: true
+                    },
+                    trackUserLocation: true
+                })
+            );
         },
         methods: {
         },
@@ -37,9 +45,4 @@
         height: 100% !important;
     }
 
-    .maplibregl-control-container {
-        position: absolute;
-        top: 1rem;
-        left: 1rem;
-    }
 </style>
