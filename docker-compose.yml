@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+
+  frontend:
+    container_name: ${FRONTEND_CONTAINER_NAME:-frontend}
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      VITE_DOCKER_ENVIRONMENT: >
+        {
+          "SERVICE_DOMAIN": "${SERVICE_DOMAIN}",
+        }
+    ports:
+      - "${SERVICE_HOSTNAME:-127.0.0.1}:${EXPOSED_FRONTEND_PORT:-3000}:3000"

@@ -1,0 +1,18 @@
+
+# dotenv environment variable files
+.env
+
+# Logs
+logs
+*.log
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# VSCode
+.vscode-test
+.vscode
