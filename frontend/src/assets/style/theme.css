@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400');
+
+:root {
+    /* neutral */
+    --neutral-000: #000000;
+    --neutral-005: #0d0d0d;
+    --neutral-010: #1a1a1a;
+    --neutral-015: #262626;
+    --neutral-020: #333333;
+    --neutral-025: #404040;
+    --neutral-030: #4d4d4d;
+    --neutral-035: #595959;
+    --neutral-040: #666666;
+    --neutral-045: #737373;
+    --neutral-050: #808080;
+    --neutral-055: #8c8c8c;
+    --neutral-060: #999999;
+    --neutral-065: #a6a6a6;
+    --neutral-070: #b3b3b3;
+    --neutral-075: #bfbfbf;
+    --neutral-080: #cccccc;
+    --neutral-085: #d9d9d9;
+    --neutral-090: #e6e6e6;
+    --neutral-095: #f2f2f2;
+    --neutral-100: #ffffff;
+    /* primary */
+    --md-ref-palette-primary0: #000000;
+    --md-ref-palette-primary10: #2c1600;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    font-size: 100%; /*16px*/
+}
+
+* {
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    background-color: var(--neutral-010);
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
+
+main {
+    width: 100%;
+    height: 100%;
+}

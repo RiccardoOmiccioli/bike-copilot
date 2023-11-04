@@ -1,0 +1,5 @@
+@import url(material_tokens.css);
+@import url(material_colors.module.css);
+@import url(material_typography.module.css);
+@import url(material_theme.light.css) (prefers-color-scheme: light);
+@import url(material_theme.dark.css) (prefers-color-scheme: dark);
