@@ -4,26 +4,40 @@
 
     export default defineComponent({
         data() {
-        return {
-        }
+            return {
+            }
         },
         mounted() {
             let map = new maplibregl.Map({
-                container: 'map', // container id
-                style: 'src/assets/style/map/mapStyle.json', // style URL
-                center: [0, 0], // starting position [lng, lat]
-                zoom: 1, // starting zoom
+                container: 'map',
+                style: 'src/assets/style/map/mapStyle.json',
+                center: [12.516667, 42.516667],
+                zoom: 6,
+                minZoom: 2,
+                maxZoom: 18,
                 attributionControl: false
             });
             map.addControl(new maplibregl.AttributionControl({compact: true, customAttribution: "Maps © Thunderforest, Data © OpenStreetMap contributors"}));
-            map.addControl(
-                new maplibregl.GeolocateControl({
-                    positionOptions: {
-                        enableHighAccuracy: true
-                    },
-                    trackUserLocation: true
-                })
-            );
+            let geolocateControl = new maplibregl.GeolocateControl({
+                positionOptions: {
+                    enableHighAccuracy: true
+                },
+                trackUserLocation: true
+            });
+            map.addControl(geolocateControl, 'bottom-right');
+
+            map.on('load', () => {
+                geolocateControl.trigger();
+                this.emitter.emit("zoomChanged", (map.getZoom() - map.getMinZoom()) / (map.getMaxZoom() - map.getMinZoom()));
+            });
+
+            map.on('zoom', () => {
+                this.emitter.emit("zoomChanged", (map.getZoom() - map.getMinZoom()) / (map.getMaxZoom() - map.getMinZoom()));
+            });
+
+            this.emitter.on("satelliteButtonClicked", () => {
+                geolocateControl.trigger();
+            });
         },
         methods: {
         },
@@ -45,4 +59,8 @@
         height: 100% !important;
     }
 
+    .maplibregl-ctrl-bottom-right,
+    .maplibregl-ctrl-bottom-left {
+        display: none;
+    }
 </style>

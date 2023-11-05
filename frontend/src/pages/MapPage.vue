@@ -1,16 +1,28 @@
 <script lang="ts">
   import { defineComponent } from "vue";
-  import router from "./router";
   import mapComponent from "../components/mapComponent.vue";
   import islandContainer from "../components/containers/islandContainer.vue";
+  import zoomLevelVisualizer from "../components/zoomLevelVisualizer.vue";
 
   export default defineComponent({
-    components: { mapComponent, islandContainer },
+    components: { mapComponent, islandContainer, zoomLevelVisualizer },
     data() {
       return {
       };
     },
     methods:{
+      toggleFullscreen() {
+        var body = document.querySelector("body");
+        if(this.isFullscreen) {
+          if (body.exitFullscreen) {
+            body.exitFullscreen();
+          }
+          this.isFullscreen = false;
+        } else {
+          body.requestFullscreen();
+          this.isFullscreen = true;
+        }
+      },
     },
   });
 </script>
@@ -19,10 +31,12 @@
   <main>
     <mapComponent></mapComponent>
     <div class="footer">
-      <island-container class="bottom-island">
-        <span class="material-symbols-outlined">satellite_alt</span>
+      <islandContainer class="bottom-island">
+        <span class="material-symbols-outlined" @click="this.emitter.emit('satelliteButtonClicked')">satellite_alt</span>
+        <span class="material-symbols-outlined" @click="toggleFullscreen()">fullscreen</span>
         <span class="material-symbols-outlined">add_circle</span>
-      </island-container>
+      </islandContainer>
+      <zoomLevelVisualizer></zoomLevelVisualizer>
     </div>
   </main>
 </template>
@@ -36,9 +50,11 @@
   .footer {
     width: 100%;
     display: flex;
+    flex-direction: column;
+    gap: var(--micro);
     align-items: center;
     justify-content: center;
     position: absolute;
-    bottom: var(--large);
+    bottom: var(--micro);
   }
 </style>
