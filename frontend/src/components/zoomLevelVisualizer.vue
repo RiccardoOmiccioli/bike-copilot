@@ -55,7 +55,7 @@
         width: calc(v-bind('currentZoomPercentage') * 100%);
         max-width: 100%;
         height: var(--micro);
-        background-color: var(--neutral-060);
+        background-color: var(--neutral-030);
         border-radius: 100px;
     }
 
@@ -68,37 +68,31 @@
 
     .first-zone, .second-zone, .third-zone, .fourth-zone, .fifth-zone {
         height: var(--micro);
-        border-radius: 100px;
-        border: solid var(--neutral-000);
+        border-radius: 0;
+        border: 0 solid var(--neutral-025);
     }
 
     .first-zone {
         width: calc(1/8 * 100%);
-        border-width: 3px 0 3px 3px;
         border-radius: 100px 0 0 100px;
     }
 
     .second-zone {
         width: calc(1/4 * 100%);
-        border-width: 3px;
-        border-radius: 0;
+        border-width: 0 3px;
     }
 
     .third-zone {
         width: calc(1/4 * 100%);
-        border-width: 3px 0 3px 0;
-        border-radius: 0;
     }
 
     .fourth-zone {
         width: calc(1/8 * 100%);
-        border-width: 3px;
-        border-radius: 0;
+        border-width:  0 3px;
     }
 
     .fifth-zone {
         width: calc(1/4 * 100%);
-        border-width: 3px 3px 3px 0;
         border-radius: 0 100px 100px 0;
     }
 </style>
