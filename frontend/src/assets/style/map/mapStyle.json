@@ -52,6 +52,14 @@
       }
     },
     {
+      "id": "water",
+      "type": "fill",
+      "source": "thunderforest_outdoors",
+      "source-layer": "water",
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(26, 26, 26, 1)"}
+    },
+    {
       "id": "water_feature",
       "type": "fill",
       "source": "thunderforest_outdoors",
@@ -84,10 +92,10 @@
       "minzoom": 8,
       "layout": {"line-cap": "round"},
       "paint": {
-        "line-color": "rgba(26, 26, 26, 1)",
-        "line-width": {"stops": [[8, 1], [12, 2]]},
+        "line-color": "rgba(33, 33, 33, 1)",
+        "line-width": {"stops": [[6, 1], [12, 2]]},
         "line-dasharray": [3, 3],
-        "line-opacity": {"stops": [[8, 0], [9, 1]]}
+        "line-opacity": {"stops": [[6, 0], [7, 1]]}
       }
     },
     {
