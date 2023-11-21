@@ -31,22 +31,31 @@
 <template>
   <main>
       <div class="info-container">
-        <h1>Bike Copilot</h1>
-        <div>
-          <p>Welcome to Bike Copilot - a free tool developed by a dedicated mountain biker to be your digital guide, providing the information you need during rides or route planning.
-            Check the world using the provided maps designed for cycling and outdoor exploration.
-            Stay informed with real-time weather updates on temperature, wind speed, and more.
-          </p>
-        </div>
-        <filledButton @click="$router.push('/map')">Start</filledButton>
-        <div>
-          <p>Bike Copilot utilizes </p><a href="https://www.openstreetmap.org/about">OpenStreetMap</a><p> data, with map tiles provided by </p><a href="https://www.thunderforest.com/">Thunderforest</a><p>.
-            Specifically, it employs </p><a href="https://www.thunderforest.com/maps/outdoors/">Thunderforest-Outoors</a><p> map tiles, the same tileset used by </p><a href="https://www.opencyclemap.org/">OpenCycleMap</a><p>.
-              This ensures that the maps stay consistently up-to-date, benefiting from the continuous updates and contributions from the OpenStreetMap community.
+        <div class="info">
+          <h1>Bike Copilot</h1>
+          <div>
+            <p>Welcome to Bike Copilot - a free tool developed by a dedicated mountain biker to be your digital guide, providing the information you need during rides or route planning.
+              Check the world using the provided maps designed for cycling and outdoor exploration.
+              Stay informed with real-time weather updates on temperature, wind speed, and more.
             </p>
           </div>
+        </div>
+        <filledButton @click="$router.push('/map')">Start</filledButton>
+        <div class="info">
+          <h2>Additional info</h2>
+          <p>
+            <span class="paragraph-container">
+              Bike Copilot utilizes <a href="https://www.openstreetmap.org/about">OpenStreetMap</a> data, with map tiles provided by <a href="https://www.thunderforest.com/">Thunderforest</a>.
+              Specifically, it employs <a href="https://www.thunderforest.com/maps/outdoors/">Thunderforest-Outoors</a> map tiles, the same tileset used by <a href="https://www.opencyclemap.org/">OpenCycleMap</a>.
+              This ensures that the maps stay consistently up-to-date, benefiting from the continuous updates and contributions from the OpenStreetMap community.
+            </span>
+          </p>
+        </div>
+        <div class="info">
+          <h2>Map usage</h2>
           <img src="../assets/image/dark_theme_info.svg" alt="dark theme map guide">
         </div>
+      </div>
         <filledButton @click="$router.push('/cookbook')">Cookbook</filledButton>
   </main>
 </template>
@@ -59,8 +68,15 @@
     flex-direction: column;
     align-items: center;
     margin: var(--gigantic);
-    gap: var(--large);
+    gap: var(--gigantic);
     overflow: scroll;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--micro);
   }
 
   img {
@@ -68,7 +84,7 @@
     border-radius: var(--medium);
   }
 
-  p, a {
-    display: inline;
+  .paragraph-container {
+    display: inline-block;
   }
 </style>

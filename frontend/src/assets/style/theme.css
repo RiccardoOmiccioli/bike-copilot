@@ -48,6 +48,9 @@
     --primary-100: #ffffff;
     --md-ref-palette-primary10: #2c1600;
 
+    --error: #db1f1c;
+    --success: #389f48;
+
     --micro: 0.579rem;
     --tiny: 0.694rem;
     --small: 0.833rem;
@@ -57,6 +60,28 @@
     --huge: 1.728rem;
     --massive: 2.074rem;
     --gigantic: 2.488rem;
+}
+
+.error {
+    color: var(--error) !important;
+}
+
+.success {
+    color: var(--success);
+}
+
+@keyframes cycleOpacity {
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+.pulse {
+    animation: cycleOpacity 1s linear infinite;
 }
 
 :not(:root):fullscreen::backdrop {
@@ -103,7 +128,7 @@ main {
 .material-symbols-outlined {
     font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
     color: var(--neutral-080);
-    font-size: var(--large);
+    font-size: var(--gigantic);
     cursor: pointer;
     user-select: none;
 }
