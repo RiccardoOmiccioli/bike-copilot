@@ -1,0 +1,723 @@
+{
+    "version": 8,
+    "name": "Empty Style",
+    "metadata": {
+      "maputnik:renderer": "mbgljs",
+      "maputnik:thunderforest_access_token": "7f778fb97d3e4016a477c7b12a60cbf5"
+    },
+    "sources": {
+      "thunderforest_outdoors": {
+        "type": "vector",
+        "url": "https://tile.thunderforest.com/thunderforest.outdoors-v2.json?apikey=7f778fb97d3e4016a477c7b12a60cbf5"
+      }
+    },
+    "sprite": "https://maputnik.github.io/osm-liberty/sprites/osm-liberty",
+    "glyphs": "https://orangemug.github.io/font-glyphs/glyphs/{fontstack}/{range}.pbf",
+    "layers": [
+      {
+        "id": "background",
+        "type": "background",
+        "minzoom": 0,
+        "maxzoom": 24,
+        "paint": {"background-color": "rgba(227, 237, 222, 1)"}
+      },
+      {
+        "id": "hillshade",
+        "type": "fill",
+        "source": "thunderforest_outdoors",
+        "source-layer": "hillshade",
+        "minzoom": 6,
+        "filter": ["all"],
+        "layout": {"visibility": "visible"},
+        "paint": {
+          "fill-color": {
+            "property": "level",
+            "type": "exponential",
+            "stops": [
+              [{"zoom": 6, "value": 110}, "rgba(117, 117, 87, 1)"],
+              [{"zoom": 6, "value": 180}, "rgba(204, 204, 179, 1)"],
+              [{"zoom": 6, "value": 230}, "rgba(247, 247, 237, 1)"]
+            ]
+          },
+          "fill-opacity": {"stops": [[6, 0], [8, 1]]},
+          "fill-antialias": true
+        }
+      },
+      {
+        "id": "elevation_minor",
+        "type": "line",
+        "source": "thunderforest_outdoors",
+        "source-layer": "elevation",
+        "minzoom": 12,
+        "filter": [
+          "all",
+          [">=", "height", 10],
+          ["!in", "priority", "major", "medium"]
+        ],
+        "layout": {
+          "visibility": "visible",
+          "line-cap": "round",
+          "line-join": "miter"
+        },
+        "paint": {
+          "line-opacity": {"stops": [[12, 0], [13, 1]]},
+          "line-color": "rgba(150, 150, 150, 1)",
+          "line-dasharray": [1, 2],
+          "line-blur": 0,
+          "line-width": 1
+        }
+      },
+      {
+        "id": "elevation",
+        "type": "line",
+        "source": "thunderforest_outdoors",
+        "source-layer": "elevation",
+        "minzoom": 12,
+        "filter": [
+          "all",
+          [">=", "height", 10],
+          ["in", "priority", "major", "medium"]
+        ],
+        "layout": {
+          "visibility": "visible",
+          "line-cap": "round",
+          "line-join": "miter"
+        },
+        "paint": {
+          "line-opacity": {"stops": [[12, 0], [13, 1]]},
+          "line-color": "rgba(133, 129, 117, 1)",
+          "line-dasharray": [1, 2],
+          "line-blur": 0,
+          "line-width": 1.3
+        }
+      },
+      {
+        "id": "wetland",
+        "type": "fill",
+        "source": "thunderforest_outdoors",
+        "source-layer": "wetland",
+        "layout": {"visibility": "visible"},
+        "paint": {
+          "fill-color": "rgba(90, 183, 216, 1)",
+          "fill-opacity": {"stops": [[9, 0], [10, 1]]}
+        }
+      },
+      {
+        "id": "waterway-casing",
+        "type": "line",
+        "source": "thunderforest_outdoors",
+        "source-layer": "waterway",
+        "filter": ["all"],
+        "layout": {"visibility": "visible", "line-cap": "round"},
+        "paint": {
+          "line-color": "rgba(51, 153, 204, 1)",
+          "line-width": {"stops": [[12, 2], [18, 20]]},
+          "line-opacity": {"stops": [[9, 0], [10, 1]]}
+        }
+      },
+      {
+        "id": "water",
+        "type": "fill",
+        "source": "thunderforest_outdoors",
+        "source-layer": "water",
+        "layout": {"visibility": "visible"},
+        "paint": {
+          "fill-color": "rgba(92, 173, 214, 1)",
+          "fill-outline-color": "rgba(51, 153, 204, 1)"
+        }
+      },
+      {
+        "id": "waterway",
+        "type": "line",
+        "source": "thunderforest_outdoors",
+        "source-layer": "waterway",
+        "filter": ["all"],
+        "layout": {"visibility": "visible", "line-cap": "round"},
+        "paint": {
+          "line-color": "rgba(92, 173, 214, 1)",
+          "line-width": {"stops": [[12, 1], [18, 18]]},
+          "line-opacity": {"stops": [[9, 0], [10, 1]]}
+        }
+      },
+      {
+        "id": "water_feature",
+        "type": "fill",
+        "source": "thunderforest_outdoors",
+        "source-layer": "water-feature",
+        "filter": ["all"],
+        "layout": {"visibility": "visible"},
+        "paint": {
+          "fill-color": "rgba(128, 128, 128, 1)",
+          "fill-opacity": {"stops": [[12, 0], [13, 1]]}
+        }
+      },
+      {
+        "id": "ocean",
+        "type": "fill",
+        "source": "thunderforest_outdoors",
+        "source-layer": "ocean",
+        "paint": {"fill-color": "rgba(92, 173, 214, 1)"}
+      },
+      {
+        "id": "railway",
+        "type": "line",
+        "source": "thunderforest_outdoors",
+        "source-layer": "railway",
+        "minzoom": 8,
+        "layout": {"line-cap": "round", "visibility": "visible"},
+        "paint": {
+          "line-color": "rgba(153, 153, 153, 1)",
+          "line-width": {"stops": [[6, 1], [12, 1]]},
+          "line-dasharray": [3, 3],
+          "line-opacity": {"stops": [[6, 0], [7, 1]]}
+        }
+      },
+      {
+        "id": "aeroway_area",
+        "type": "fill",
+        "source": "thunderforest_outdoors",
+        "source-layer": "aeroway-area",
+        "filter": [
+          "any",
+          ["==", "aeroway", "runway"],
+          ["==", "aeroway", "helipad"]
+        ],
+        "paint": {
+          "fill-color": "rgba(166, 166, 166, 1)",
+          "fill-opacity": {"stops": [[14, 0], [15, 1]]},
+          "fill-outline-color": "rgba(140, 140, 140, 1)"
+        }
+      },
+      {
+        "id": "aeroway",
+        "type": "line",
+        "source": "thunderforest_outdoors",
+        "source-layer": "aeroway",
+        "layout": {"line-cap": "round", "line-join": "miter"},
+        "paint": {
+          "line-color": "rgba(166, 166, 166, 1)",
+          "line-width": {"stops": [[10, 1], [14, 4], [18, 18]]},
+          "line-opacity": {"stops": [[14, 0], [15, 1]]}
+        }
+      },
+      {
+        "id": "building",
+        "type": "fill",
+        "source": "thunderforest_outdoors",
+        "source-layer": "building",
+        "minzoom": 0,
+        "maxzoom": 24,
+        "paint": {
+          "fill-color": "rgba(166, 166, 166, 1)",
+          "fill-opacity": {"stops": [[14, 0], [15, 1]]},
+          "fill-outline-color": "rgba(140, 140, 140, 1)"
+        }
+      },
+      {
+        "id": "hiking",
+        "type": "line",
+        "source": "thunderforest_outdoors",
+        "source-layer": "hiking",
+        "filter": ["all", ["!=", "highway", "cycleway"]],
+        "layout": {
+          "visibility": "visible",
+          "line-cap": "butt",
+          "line-join": "bevel"
+        },
+        "paint": {
+          "line-color": "rgba(56, 159, 72, 1)",
+          "line-opacity": {"stops": [[12, 0], [13, 1]]},
+          "line-dasharray": [1, 2],
+          "line-width": {"stops": [[12, 1], [18, 3]]}
+        }
+      },
+      {
+        "id": "path",
+        "type": "line",
+        "source": "thunderforest_outdoors",
+        "source-layer": "path",
+        "filter": ["all", ["!=", "highway", "cycleway"]],
+        "layout": {
+          "visibility": "visible",
+          "line-cap": "butt",
+          "line-join": "bevel"
+        },
+        "paint": {
+          "line-color": "rgba(56, 159, 72, 1)",
+          "line-opacity": {"stops": [[12, 0], [13, 1]]},
+          "line-dasharray": [1, 2],
+          "line-width": {"stops": [[12, 1], [18, 3]]}
+        }
+      },
+      {
+        "id": "road_casing",
+        "type": "line",
+        "source": "thunderforest_outdoors",
+        "source-layer": "road",
+        "filter": [
+          "all",
+          [
+            "!in",
+            "highway",
+            "secondary",
+            "tertiary",
+            "primary",
+            "motorway",
+            "motorway_link"
+          ]
+        ],
+        "layout": {"line-cap": "round", "visibility": "visible"},
+        "paint": {
+          "line-color": "rgba(154, 154, 154, 1)",
+          "line-opacity": {"stops": [[12, 0], [13, 1]]},
+          "line-width": {"stops": [[12, 2], [18, 5]]}
+        }
+      },
+      {
+        "id": "road",
+        "type": "line",
+        "source": "thunderforest_outdoors",
+        "source-layer": "road",
+        "filter": [
+          "all",
+          [
+            "!in",
+            "highway",
+            "secondary",
+            "tertiary",
+            "primary",
+            "motorway",
+            "motorway_link"
+          ]
+        ],
+        "layout": {"line-cap": "round", "visibility": "visible"},
+        "paint": {
+          "line-color": "rgba(217, 217, 217, 1)",
+          "line-opacity": {"stops": [[12, 0], [13, 1]]},
+          "line-width": {"stops": [[12, 1], [18, 3]]}
+        }
+      },
+      {
+        "id": "road_secondary_tertiary_casing",
+        "type": "line",
+        "source": "thunderforest_outdoors",
+        "source-layer": "road",
+        "filter": ["all", ["in", "highway", "secondary", "tertiary"]],
+        "layout": {"line-cap": "round", "visibility": "visible"},
+        "paint": {
+          "line-color": "rgba(255, 163, 51, 1)",
+          "line-opacity": {"stops": [[8, 0], [9, 1]]},
+          "line-width": {"stops": [[12, 2], [18, 8]]}
+        }
+      },
+      {
+        "id": "road_secondary_tertiary",
+        "type": "line",
+        "source": "thunderforest_outdoors",
+        "source-layer": "road",
+        "filter": ["all", ["in", "highway", "secondary", "tertiary"]],
+        "layout": {"line-cap": "round", "visibility": "visible"},
+        "paint": {
+          "line-color": "rgba(255, 198, 128, 1)",
+          "line-opacity": {"stops": [[8, 0], [9, 1]]},
+          "line-width": {"stops": [[12, 1], [18, 6]]}
+        }
+      },
+      {
+        "id": "road_primary_casing",
+        "type": "line",
+        "source": "thunderforest_outdoors",
+        "source-layer": "road",
+        "filter": ["all", ["in", "highway", "primary"]],
+        "layout": {"line-cap": "round", "visibility": "visible"},
+        "paint": {
+          "line-color": "rgba(255, 163, 51, 1)",
+          "line-opacity": {"stops": [[7, 0], [8, 1]]},
+          "line-width": {"stops": [[12, 3], [18, 10]]}
+        }
+      },
+      {
+        "id": "road_primary",
+        "type": "line",
+        "source": "thunderforest_outdoors",
+        "source-layer": "road",
+        "filter": ["all", ["in", "highway", "primary"]],
+        "layout": {"line-cap": "round", "visibility": "visible"},
+        "paint": {
+          "line-color": "rgba(255, 198, 128, 1)",
+          "line-opacity": {"stops": [[7, 0], [8, 1]]},
+          "line-width": {"stops": [[12, 2], [18, 8]]}
+        }
+      },
+      {
+        "id": "road_motorway_casing",
+        "type": "line",
+        "source": "thunderforest_outdoors",
+        "source-layer": "road",
+        "filter": ["all", ["in", "highway", "motorway", "motorway_link"]],
+        "layout": {"line-cap": "round", "visibility": "visible"},
+        "paint": {
+          "line-color": "rgba(255, 163, 51, 1)",
+          "line-opacity": {"stops": [[10, 0], [11, 1]]},
+          "line-width": {"stops": [[12, 3], [18, 14]]}
+        }
+      },
+      {
+        "id": "road_motorway",
+        "type": "line",
+        "source": "thunderforest_outdoors",
+        "source-layer": "road",
+        "filter": ["all", ["in", "highway", "motorway", "motorway_link"]],
+        "layout": {"line-cap": "round", "visibility": "visible"},
+        "paint": {
+          "line-color": "#FFC680",
+          "line-opacity": {"stops": [[10, 0], [11, 1]]},
+          "line-width": {"stops": [[12, 2], [18, 12]]}
+        }
+      },
+      {
+        "id": "cycleway",
+        "type": "line",
+        "source": "thunderforest_outdoors",
+        "source-layer": "path",
+        "filter": ["all", ["==", "highway", "cycleway"]],
+        "layout": {"visibility": "none"},
+        "paint": {
+          "line-color": "rgba(255, 163, 51, 1)",
+          "line-opacity": {"stops": [[11, 0], [12, 1]]},
+          "line-width": {"stops": [[12, 1], [18, 3]]}
+        }
+      },
+      {
+        "id": "cycling",
+        "type": "line",
+        "source": "thunderforest_outdoors",
+        "source-layer": "cycling",
+        "layout": {"line-cap": "round", "visibility": "none"},
+        "paint": {
+          "line-color": "rgba(255, 163, 51, 1)",
+          "line-opacity": {"stops": [[12, 0], [13, 1]]},
+          "line-width": {"stops": [[12, 1], [18, 6]]}
+        }
+      },
+      {
+        "id": "cycling_lowzoom",
+        "type": "line",
+        "source": "thunderforest_outdoors",
+        "source-layer": "cycling-lowzoom",
+        "layout": {"visibility": "none"},
+        "paint": {
+          "line-color": "rgba(255, 163, 51, 1)",
+          "line-opacity": {"stops": [[4, 0], [5, 1], [12, 1], [12.5, 0]]}
+        }
+      },
+      {
+        "id": "mountain_biking",
+        "type": "line",
+        "source": "thunderforest_outdoors",
+        "source-layer": "mountain-biking",
+        "layout": {"line-cap": "round", "visibility": "none"},
+        "paint": {
+          "line-color": "rgba(0, 136, 204, 1)",
+          "line-opacity": {"stops": [[7, 0], [8, 1]]},
+          "line-width": {"stops": [[12, 1], [18, 6]]}
+        }
+      },
+      {
+        "id": "sport",
+        "type": "fill",
+        "source": "thunderforest_outdoors",
+        "source-layer": "sport-pitch",
+        "layout": {"visibility": "visible"},
+        "paint": {
+          "fill-color": "#389F48",
+          "fill-opacity": {"stops": [[10, 0.5], [14, 0.5]]},
+          "fill-outline-color": "rgba(44, 120, 54, 1)",
+          "fill-antialias": true
+        }
+      },
+      {
+        "id": "elevation_label-copy",
+        "type": "symbol",
+        "source": "thunderforest_outdoors",
+        "source-layer": "elevation",
+        "minzoom": 12,
+        "filter": [
+          "all",
+          [">=", "height", 10],
+          ["in", "priority", "major", "medium"]
+        ],
+        "layout": {
+          "visibility": "visible",
+          "symbol-z-order": "auto",
+          "symbol-sort-key": ["to-number", ["get", "priority"]],
+          "symbol-placement": "point",
+          "icon-padding": 0,
+          "icon-text-fit": "none",
+          "icon-anchor": "center",
+          "text-anchor": "center",
+          "text-field": "{height}",
+          "text-font": ["Roboto Condensed Italic"],
+          "text-max-width": 9,
+          "text-justify": "center",
+          "text-optional": false,
+          "text-transform": "none",
+          "text-keep-upright": false,
+          "text-allow-overlap": false,
+          "text-size": {"stops": [[14, 14], [18, 18]]},
+          "text-offset": [0, 0],
+          "icon-allow-overlap": false,
+          "icon-rotation-alignment": "auto",
+          "symbol-avoid-edges": false,
+          "icon-optional": true,
+          "icon-ignore-placement": false,
+          "text-ignore-placement": false,
+          "text-rotation-alignment": "auto",
+          "symbol-spacing": 1
+        },
+        "paint": {
+          "icon-opacity": 1,
+          "text-translate-anchor": "map",
+          "text-color": "rgba(102, 102, 102, 1)",
+          "text-halo-color": "rgba(230, 230, 230, 1)",
+          "text-halo-width": 1,
+          "text-opacity": {"stops": [[12, 0], [12.5, 1]]}
+        }
+      },
+      {
+        "id": "elevation_label",
+        "type": "symbol",
+        "source": "thunderforest_outdoors",
+        "source-layer": "elevation",
+        "minzoom": 12,
+        "filter": ["all", ["==", "priority", "major"], [">=", "height", 10]],
+        "layout": {
+          "visibility": "none",
+          "symbol-z-order": "auto",
+          "symbol-sort-key": ["to-number", ["get", "priority"]],
+          "symbol-placement": "point",
+          "icon-padding": 0,
+          "icon-text-fit": "none",
+          "icon-anchor": "center",
+          "text-anchor": "center",
+          "text-field": "{height}",
+          "text-font": ["Roboto Condensed Italic"],
+          "text-max-width": 9,
+          "text-justify": "center",
+          "text-optional": false,
+          "text-transform": "none",
+          "text-keep-upright": false,
+          "text-allow-overlap": false,
+          "text-size": {"stops": [[14, 14], [18, 18]]},
+          "text-offset": [0, 0],
+          "icon-allow-overlap": false,
+          "icon-rotation-alignment": "auto",
+          "symbol-avoid-edges": false,
+          "icon-optional": true,
+          "icon-ignore-placement": false,
+          "text-ignore-placement": false,
+          "text-rotation-alignment": "auto",
+          "symbol-spacing": 1
+        },
+        "paint": {
+          "icon-opacity": 1,
+          "text-translate-anchor": "map",
+          "text-color": "rgba(102, 102, 102, 1)",
+          "text-halo-color": "rgba(230, 230, 230, 1)",
+          "text-halo-width": 1,
+          "text-opacity": {"stops": [[12, 0], [12.5, 1]]}
+        }
+      },
+      {
+        "id": "place_label_city",
+        "type": "symbol",
+        "source": "thunderforest_outdoors",
+        "source-layer": "place-label",
+        "minzoom": 5,
+        "maxzoom": 14,
+        "filter": ["all", ["==", "place", "city"]],
+        "layout": {
+          "icon-image": "",
+          "text-anchor": "center",
+          "text-field": "{name}",
+          "text-font": ["Roboto Medium"],
+          "text-max-width": 8,
+          "text-offset": [0, 0],
+          "text-size": {"base": 1.2, "stops": [[7, 14], [11, 24]]},
+          "icon-allow-overlap": false,
+          "icon-optional": false,
+          "text-allow-overlap": false
+        },
+        "paint": {
+          "text-color": "rgba(102, 102, 102, 1)",
+          "text-halo-color": "rgba(230, 230, 230, 1)",
+          "text-halo-width": 1,
+          "text-opacity": {"stops": [[6, 0], [6.5, 1]]}
+        }
+      },
+      {
+        "id": "place_label_town",
+        "type": "symbol",
+        "source": "thunderforest_outdoors",
+        "source-layer": "place-label",
+        "minzoom": 5,
+        "maxzoom": 14,
+        "filter": ["all", ["==", "place", "town"]],
+        "layout": {
+          "icon-image": "",
+          "text-anchor": "center",
+          "text-field": "{name}",
+          "text-font": ["Roboto Medium"],
+          "text-max-width": 8,
+          "text-offset": [0, 0],
+          "text-size": {"base": 1.2, "stops": [[7, 14], [11, 24]]},
+          "icon-allow-overlap": false,
+          "icon-optional": false,
+          "text-allow-overlap": false
+        },
+        "paint": {
+          "text-color": "rgba(102, 102, 102, 1)",
+          "text-halo-color": "rgba(230, 230, 230, 1)",
+          "text-halo-width": 1,
+          "text-opacity": {"stops": [[8, 0], [8.5, 1]]}
+        }
+      },
+      {
+        "id": "place_label_village",
+        "type": "symbol",
+        "source": "thunderforest_outdoors",
+        "source-layer": "place-label",
+        "minzoom": 10,
+        "maxzoom": 14,
+        "filter": ["all", ["==", "place", "village"]],
+        "layout": {
+          "icon-image": "",
+          "text-anchor": "center",
+          "text-field": "{name}",
+          "text-font": ["Roboto Medium"],
+          "text-max-width": 8,
+          "text-offset": [0, 0],
+          "text-size": {"base": 1.2, "stops": [[10, 14], [18, 18]]},
+          "icon-allow-overlap": false,
+          "icon-optional": false,
+          "visibility": "visible",
+          "text-allow-overlap": false
+        },
+        "paint": {
+          "text-color": "rgba(102, 102, 102, 1)",
+          "text-halo-color": "rgba(230, 230, 230, 1)",
+          "text-halo-width": 1,
+          "text-opacity": {"stops": [[10, 0], [10.5, 1], [13.5, 1], [14, 0]]}
+        }
+      },
+      {
+        "id": "place_label_hamlet",
+        "type": "symbol",
+        "source": "thunderforest_outdoors",
+        "source-layer": "place-label",
+        "minzoom": 10,
+        "maxzoom": 14,
+        "filter": ["all", ["==", "place", "hamlet"]],
+        "layout": {
+          "icon-image": "",
+          "text-anchor": "center",
+          "text-field": "{name}",
+          "text-font": ["Roboto Medium"],
+          "text-max-width": 8,
+          "text-offset": [0, 0],
+          "text-size": {"base": 1.2, "stops": [[10, 14], [18, 18]]},
+          "icon-allow-overlap": false,
+          "icon-optional": false,
+          "visibility": "visible",
+          "text-allow-overlap": false
+        },
+        "paint": {
+          "text-color": "rgba(102, 102, 102, 1)",
+          "text-halo-color": "rgba(230, 230, 230, 1)",
+          "text-halo-width": 1,
+          "text-opacity": {"stops": [[10, 0], [10.5, 1], [13.5, 1], [14, 0]]}
+        }
+      },
+      {
+        "id": "place_label",
+        "type": "symbol",
+        "source": "thunderforest_outdoors",
+        "source-layer": "place-label",
+        "layout": {"visibility": "none"}
+      },
+      {
+        "id": "water_label",
+        "type": "symbol",
+        "source": "thunderforest_outdoors",
+        "source-layer": "water-label",
+        "minzoom": 12,
+        "filter": ["all", ["==", "type", "water"]],
+        "layout": {
+          "visibility": "visible",
+          "symbol-z-order": "auto",
+          "symbol-placement": "point",
+          "icon-padding": 0,
+          "icon-text-fit": "none",
+          "icon-anchor": "center",
+          "text-anchor": "center",
+          "text-field": "{name}",
+          "text-font": ["Roboto Condensed Italic"],
+          "text-max-width": 9,
+          "text-justify": "center",
+          "text-optional": true,
+          "text-transform": "none",
+          "text-keep-upright": false,
+          "text-allow-overlap": false,
+          "text-size": {"stops": [[14, 14], [18, 18]]},
+          "text-offset": [0, 0],
+          "icon-allow-overlap": true
+        },
+        "paint": {
+          "icon-opacity": {"stops": [[10, 0], [11, 1]]},
+          "text-translate-anchor": "map",
+          "text-color": "rgba(41, 122, 163, 1)",
+          "text-halo-color": "rgba(230, 230, 230, 1)",
+          "text-halo-width": 1,
+          "text-opacity": {"stops": [[12, 0], [12.5, 1]]}
+        }
+      },
+      {
+        "id": "peak",
+        "type": "symbol",
+        "source": "thunderforest_outdoors",
+        "source-layer": "poi-label",
+        "minzoom": 12,
+        "filter": ["all", ["==", "feature", "peak"]],
+        "layout": {
+          "visibility": "visible",
+          "icon-image": "mountain",
+          "symbol-z-order": "auto",
+          "symbol-placement": "point",
+          "icon-padding": 0,
+          "icon-text-fit": "none",
+          "icon-anchor": "center",
+          "text-anchor": "top",
+          "text-field": "{name} {ele}",
+          "text-font": ["Roboto Condensed Italic"],
+          "text-max-width": 9,
+          "text-justify": "center",
+          "text-optional": true,
+          "text-transform": "none",
+          "text-keep-upright": false,
+          "text-allow-overlap": false,
+          "text-size": {"stops": [[14, 14], [18, 18]]},
+          "text-offset": [0, 0.8],
+          "icon-allow-overlap": true
+        },
+        "paint": {
+          "icon-opacity": {"stops": [[10, 0], [11, 1]]},
+          "text-translate-anchor": "map",
+          "text-color": "rgba(102, 102, 102, 1)",
+          "text-halo-color": "rgba(230, 230, 230, 1)",
+          "text-halo-width": 1,
+          "text-opacity": {"stops": [[12, 0], [12.5, 1]]}
+        }
+      }
+    ],
+    "id": "aj5c9or1u"
+  }

@@ -10,7 +10,7 @@
         mounted() {
             let map = new maplibregl.Map({
                 container: 'map',
-                style: 'src/assets/style/map/mapStyle.json',
+                style: 'src/assets/style/map/darkStyle.json',
                 center: [12.516667, 42.516667],
                 zoom: 6,
                 minZoom: 2,
