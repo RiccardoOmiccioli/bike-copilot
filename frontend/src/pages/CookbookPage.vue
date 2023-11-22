@@ -5,9 +5,10 @@
   import centeredContainer from "../components/containers/centeredContainer.vue";
   import islandContainer from "../components/containers/islandContainer.vue";
   import segmentedButton from "../components/buttons/segmentedButton.vue";
+  import weatherComponent from "../components/weatherComponent.vue";
 
   export default defineComponent({
-    components: { filledButton, outlinedButton, centeredContainer, islandContainer, segmentedButton },
+    components: { filledButton, outlinedButton, centeredContainer, islandContainer, segmentedButton, weatherComponent },
     data() {
       return {
       };
@@ -34,6 +35,7 @@
         {value: 'second', id: 'second', label: 'Second'},
         {value: 'third', id: 'third', label: 'Third'}
       ]" group-name="test-type"/>
+      <weatherComponent></weatherComponent>
     </div>
   </main>
 </template>

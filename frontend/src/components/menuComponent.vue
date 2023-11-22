@@ -1,9 +1,10 @@
 <script lang="ts">
     import {defineComponent} from "vue";
     import segmentedButton from "./buttons/segmentedButton.vue";
+    import weatherComponent from "./weatherComponent.vue";
 
     export default defineComponent({
-        components: { segmentedButton },
+        components: { segmentedButton, weatherComponent },
         data() {
             return {
                 show: false,
@@ -24,7 +25,7 @@
 <template>
     <div class="menu-container" :class="{expanded: show}">
         <div class="menu-row">
-            <span class="material-symbols-outlined">sync</span>
+            <span class="material-symbols-outlined" @click="this.emitter.emit('updateWeather')">sync</span>
             <span class="material-symbols-outlined" @click="this.emitter.emit('toggleFullscreen')">fullscreen</span>
             <span class="material-symbols-outlined" @click="this.show = false">close</span>
         </div>
@@ -34,10 +35,7 @@
                 {value: 'outdoor', id: 'outdoor', label: 'Outdoor'},
                 ]" group-name="theme-type" emitter-event="mapThemeSelected"/>
         </div>
-        <div class="menu-row">
-            <p>temperature</p>
-            <p>20</p>
-        </div>
+        <weatherComponent></weatherComponent>
     </div>
 </template>
 
