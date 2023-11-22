@@ -35,17 +35,19 @@
 </template>
 
 <style lang="scss" scoped>
+    $width: 90%;
+
     .zoom-visualizer-container {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: calc(100% - 2 * var(--huge));
+        width: calc($width - 2 * var(--huge));
         margin-left: var(--huge);
         margin-right: var(--huge);
     }
 
     .zoom-visualizer {
-        width: 100%;
+        width: $width;
         display: inline;
         border-radius: 100px;
         background-color: var(--neutral-020);
@@ -61,7 +63,7 @@
 
     .zoom-levels {
         position: absolute;
-        width: calc(100% - 2 * var(--huge));
+        width: calc($width - 2 * var(--huge));
         height: var(--micro);
         display: flex;
     }
@@ -73,26 +75,26 @@
     }
 
     .first-zone {
-        width: calc(1/8 * 100%);
+        width: calc(1/8 * $width);
         border-radius: 100px 0 0 100px;
     }
 
     .second-zone {
-        width: calc(1/4 * 100%);
+        width: calc(1/4 * $width);
         border-width: 0 3px;
     }
 
     .third-zone {
-        width: calc(1/4 * 100%);
+        width: calc(1/4 * $width);
     }
 
     .fourth-zone {
-        width: calc(1/8 * 100%);
+        width: calc(1/8 * $width);
         border-width:  0 3px;
     }
 
     .fifth-zone {
-        width: calc(1/4 * 100%);
+        width: calc(1/4 * $width);
         border-radius: 0 100px 100px 0;
     }
 </style>

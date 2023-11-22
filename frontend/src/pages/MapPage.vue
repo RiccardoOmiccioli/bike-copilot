@@ -39,7 +39,6 @@
     <menuComponent class="menu"></menuComponent>
     <div class="footer">
       <islandContainer class="bottom-island">
-        <span class="material-symbols-outlined error pulse" @click="this.emitter.emit('satelliteButtonClicked')">satellite_alt</span>
         <span class="material-symbols-outlined">assistant_navigation</span>
         <span class="material-symbols-outlined" @click="this.emitter.emit('toggleMenu')">expand_circle_up</span>
         <span class="material-symbols-outlined">add_circle</span>

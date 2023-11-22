@@ -4,9 +4,10 @@
   import outlinedButton from "../components/buttons/outlinedButton.vue";
   import centeredContainer from "../components/containers/centeredContainer.vue";
   import islandContainer from "../components/containers/islandContainer.vue";
+  import segmentedButton from "../components/buttons/segmentedButton.vue";
 
   export default defineComponent({
-    components: { filledButton, outlinedButton, centeredContainer, islandContainer },
+    components: { filledButton, outlinedButton, centeredContainer, islandContainer, segmentedButton },
     data() {
       return {
       };
@@ -18,15 +19,22 @@
 
 <template>
   <main>
-    <centeredContainer id="buttons-container">
-      <filledButton @click="">Button</filledButton>
-      <outlinedButton @click="">Button</outlinedButton>
-    </centeredContainer>
-    <islandContainer id="island-container">
-      <span class="material-symbols-outlined">satellite_alt</span>
-      <div id="animated-width-div"></div>
-      <span class="material-symbols-outlined">add_circle</span>
-    </islandContainer>
+    <div class="cookbook-container">
+      <centeredContainer>
+        <filledButton @click="">Button</filledButton>
+        <outlinedButton @click="">Button</outlinedButton>
+      </centeredContainer>
+      <islandContainer>
+        <span class="material-symbols-outlined">satellite_alt</span>
+        <div id="animated-width-div"></div>
+        <span class="material-symbols-outlined">add_circle</span>
+      </islandContainer>
+      <segmentedButton :options="[
+        {value: 'first', id: 'first', label: 'First'},
+        {value: 'second', id: 'second', label: 'Second'},
+        {value: 'third', id: 'third', label: 'Third'}
+      ]" group-name="test-type"/>
+    </div>
   </main>
 </template>
 
@@ -37,12 +45,14 @@
     100% { width: 0; }
   }
 
-  #buttons-container {
-    margin-top: var(--medium);
-  }
-
-  #island-container {
-    margin-top: var(--medium);
+  .cookbook-container {
+    padding-top: var(--gigantic);
+    padding-bottom: var(--gigantic);
+    padding-left: var(--large);
+    padding-right: var(--large);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gigantic);
   }
 
   #animated-width-div {

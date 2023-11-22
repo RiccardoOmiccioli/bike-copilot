@@ -38,6 +38,18 @@
             this.emitter.on("satelliteButtonClicked", () => {
                 geolocateControl.trigger();
             });
+
+            this.emitter.on("mapThemeSelected", (themeName) => {
+                switch (themeName) {
+                    case "dark":
+                        map.setStyle('src/assets/style/map/darkStyle.json');
+                        break;
+                    case "outdoor":
+                        map.setStyle('src/assets/style/map/outdoorStyle.json');
+                        break;
+                    default:
+                }
+            });
         },
         methods: {
         },

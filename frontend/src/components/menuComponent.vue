@@ -1,7 +1,9 @@
 <script lang="ts">
     import {defineComponent} from "vue";
+    import segmentedButton from "./buttons/segmentedButton.vue";
 
     export default defineComponent({
+        components: { segmentedButton },
         data() {
             return {
                 show: false,
@@ -23,11 +25,14 @@
     <div class="menu-container" :class="{expanded: show}">
         <div class="menu-row">
             <span class="material-symbols-outlined">sync</span>
+            <span class="material-symbols-outlined" @click="this.emitter.emit('toggleFullscreen')">fullscreen</span>
             <span class="material-symbols-outlined" @click="this.show = false">close</span>
         </div>
-        <div class="menu-row">
-            <p>fullscreen</p>
-            <span class="material-symbols-outlined" @click="this.emitter.emit('toggleFullscreen')">fullscreen</span>
+        <div class="menu-theme-row">
+            <segmentedButton :options="[
+                {value: 'dark', id: 'dark', label: 'Dark'},
+                {value: 'outdoor', id: 'outdoor', label: 'Outdoor'},
+                ]" group-name="theme-type" emitter-event="mapThemeSelected"/>
         </div>
         <div class="menu-row">
             <p>temperature</p>
@@ -62,5 +67,9 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+    }
+
+    .menu-theme-row {
+        justify-content: center;
     }
 </style>

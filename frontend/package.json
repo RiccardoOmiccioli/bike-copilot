@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "chart.js": "^4.4.0",
     "maplibre-gl": "^3.5.2",
     "mitt": "^3.0.1",
     "sass": "^1.69.5",

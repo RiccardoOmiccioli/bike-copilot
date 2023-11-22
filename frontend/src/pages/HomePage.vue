@@ -34,9 +34,9 @@
         <div class="info">
           <h1>Bike Copilot</h1>
           <div>
-            <p>Welcome to Bike Copilot - a free tool developed by a dedicated mountain biker to be your digital guide, providing the information you need during rides or route planning.
+            <p>Welcome to Bike Copilot - a free tool developed by a passionate mountain biker to be your digital guide, providing the information you need during rides or route planning.
               Check the world using the provided maps designed for cycling and outdoor exploration.
-              Stay informed with real-time weather updates on temperature, wind speed, and more.
+              Stay informed with weather updates on temperature, wind, and more.
             </p>
           </div>
         </div>
@@ -55,8 +55,8 @@
           <h2>Map usage</h2>
           <img src="../assets/image/dark_theme_info.svg" alt="dark theme map guide">
         </div>
-      </div>
         <filledButton @click="$router.push('/cookbook')">Cookbook</filledButton>
+      </div>
   </main>
 </template>
 
