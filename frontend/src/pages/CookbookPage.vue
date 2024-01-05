@@ -48,6 +48,8 @@
   }
 
   .cookbook-container {
+    width: 100%;
+    height: 100%;
     padding-top: var(--gigantic);
     padding-bottom: var(--gigantic);
     padding-left: var(--large);
@@ -55,6 +57,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--gigantic);
+    overflow: scroll;
   }
 
   #animated-width-div {

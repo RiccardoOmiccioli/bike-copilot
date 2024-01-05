@@ -4,23 +4,25 @@
     import temperatureWidget from "./widgets/temperatureWidget.vue"
     import windWidget from "./widgets/windWidget.vue";
     import soilMoistureWidget from "./widgets/soilMoistureWidget.vue";
+    import sunlightWidget from "./widgets/sunlightWidget.vue";
 
     const url = "https://api.open-meteo.com/v1/forecast";
 
     const range = (start: number, stop: number, step: number) => Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
 
     export default defineComponent({
-        components: { temperatureWidget, windWidget, soilMoistureWidget },
+        components: { temperatureWidget, windWidget, soilMoistureWidget, sunlightWidget },
         data() {
             return {
                 params: {
 	                "latitude": 0.0,
 	                "longitude": 0.0,
-                    "hourly": ["temperature_2m", "relative_humidity_2m", "apparent_temperature", "precipitation_probability", "precipitation", "wind_speed_10m", "wind_speed_80m", "wind_speed_120m", "wind_speed_180m", "wind_direction_10m", "wind_direction_80m", "wind_direction_120m", "wind_direction_180m", "temperature_80m", "temperature_120m", "temperature_180m", "soil_moisture_0_to_1cm", "soil_moisture_1_to_3cm", "soil_moisture_3_to_9cm", "soil_moisture_9_to_27cm", "is_day"],
+                    "minutely_15": "is_day",
+                    "hourly": ["temperature_2m", "relative_humidity_2m", "apparent_temperature", "precipitation_probability", "precipitation", "wind_speed_10m", "wind_speed_80m", "wind_speed_120m", "wind_speed_180m", "wind_direction_10m", "wind_direction_80m", "wind_direction_120m", "wind_direction_180m", "temperature_80m", "temperature_120m", "temperature_180m", "soil_moisture_0_to_1cm", "soil_moisture_1_to_3cm", "soil_moisture_3_to_9cm", "soil_moisture_9_to_27cm", "is_day", "direct_radiation", "diffuse_radiation"],
 	                "daily": ["sunrise", "sunset"],
 	                "wind_speed_unit": "ms",
 	                "timezone": "GMT",
-	                "forecast_days": 1,
+	                "forecast_days": 2
                 },
             }
         },
@@ -42,7 +44,6 @@
 
                         let responses = await fetchWeatherApi(url, this.params);
                         const response = responses[0];
-
                         const utcOffsetSeconds = response.utcOffsetSeconds();
                         // const timezone = response.timezone();
                         // const timezoneAbbreviation = response.timezoneAbbreviation();
@@ -75,16 +76,19 @@
                                 soilMoisture1To3cm: hourly.variables(17)!.valuesArray()!,
                                 soilMoisture3To9cm: hourly.variables(18)!.valuesArray()!,
                                 soilMoisture9To27cm: hourly.variables(19)!.valuesArray()!,
-                                isDay: hourly.variables(19)!.valuesArray()!,
+                                isDay: hourly.variables(20)!.valuesArray()!,
+                                directRadiation: hourly.variables(21)!.valuesArray()!,
+                                diffuseRadiation: hourly.variables(22)!.valuesArray()!,
                             },
                             daily: {
                                 time: range(Number(daily.time()), Number(daily.timeEnd()), daily.interval()).map(
                                     (t) => new Date((t + utcOffsetSeconds) * 1000)
                                 ),
                                 sunrise: daily.variables(0)!.valuesArray()!,
-                                sunset: daily.variables(1)!.valuesArray()!,
-                            },
+		                        sunset: daily.variables(1)!.valuesArray()!,
+	                        },
                         }
+                        console.log(weatherData);
                         this.emitter.emit('weatherUpdateCompleted', weatherData);
                     });
                 }
@@ -98,7 +102,8 @@
         <temperatureWidget></temperatureWidget>
         <windWidget></windWidget>
         <soilMoistureWidget></soilMoistureWidget>
-        <p>lat: {{this.params.latitude}} long: {{this.params.longitude}}</p>
+        <sunlightWidget></sunlightWidget>
+        <p class="mono">lat: {{this.params.latitude}} long: {{this.params.longitude}}</p>
     </div>
 </template>
 
@@ -110,10 +115,5 @@
         justify-content: flex-start;
         width: 100%;
         gap: var(--large);
-    }
-
-    p {
-        color: var(--neutral-040);
-        font-family: monospace;
     }
 </style>

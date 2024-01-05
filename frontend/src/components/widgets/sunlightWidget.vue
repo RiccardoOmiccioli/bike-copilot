@@ -20,7 +20,6 @@
         methods: {
             drawChart(weatherData: WeatherData) {
                 const plot = Plot.plot({
-                    margin: 32,
                     inset: 16,
                     style: {fontSize: "16px"},
                     x: {
@@ -39,7 +38,7 @@
                         }),
                         Plot.axisY({
                             color: "#666666",
-                            label: null
+                            label: null,
                         }),
                         Plot.gridY({
                             stroke: "#666666",
@@ -50,55 +49,48 @@
                             strokeWidth: 4,
                             strokeDasharray: "4,4",
                         }),
-                        Plot.line({length: weatherData.hourly.time.length}, {
-                            curve: "cardinal",
-                            x: weatherData.hourly.time.map(d => d),
-                            y: weatherData.hourly.windSpeed180m.map(d => d),
-                            z: null,
-                            stroke: "#00223d",
+                        Plot.ruleY([0], {
+                            stroke: "#333333",
                             strokeWidth: 4,
-                            strokeOpacity: 1,
                         }),
-                        Plot.line({length: weatherData.hourly.time.length}, {
-                            curve: "cardinal",
+                        Plot.differenceY({length: weatherData.hourly.time.length}, {
+                            curve: "basis",
                             x: weatherData.hourly.time.map(d => d),
-                            y: weatherData.hourly.windSpeed120m.map(d => d),
+                            y: weatherData.hourly.isDay.map(d => d),
                             z: null,
-                            stroke: "#003e70",
-                            strokeWidth: 4,
-                            strokeOpacity: 1,
-                        }),
-                        Plot.line({length: weatherData.hourly.time.length}, {
-                            curve: "cardinal",
-                            x: weatherData.hourly.time.map(d => d),
-                            y: weatherData.hourly.windSpeed80m.map(d => d),
-                            z: null,
-                            stroke: "#005aa3",
-                            strokeWidth: 4,
-                            strokeOpacity: 1,
-                        }),
-                        Plot.line({length: weatherData.hourly.time.length}, {
-                            curve: "cardinal",
-                            x: weatherData.hourly.time.map(d => d),
-                            y: weatherData.hourly.windSpeed10m.map(d => d),
-                            z: null,
-                            stroke: "#0078d7",
-                            strokeWidth: 4,
-                            strokeOpacity: 1,
-                        }),
-                        Plot.vector({length: weatherData.hourly.time.length}, {
-                            x: weatherData.hourly.time.map(d => d.getHours()%2 === 0 ? d : null),
-                            frameAnchor: "top",
-                            dy: -16,
-                            length: 16,
-                            rotate: weatherData.hourly.windDirection10m.map(d => d),
-                            stroke: "#0078d7",
+                            positiveFill: "#999999",
+                            negativeFill: "#1a1a1a",
+                            stroke: "#333333",
                             strokeWidth: 2,
                             strokeOpacity: 1,
                         }),
+                        Plot.areaY({length: weatherData.hourly.time.length}, {
+                            curve: "basis",
+                            x: weatherData.hourly.time.map(d => d),
+                            y: weatherData.hourly.diffuseRadiation.map(d => d),
+                            z: null,
+                            fill: "#c66e02",
+                            stroke: "#df7c02",
+                            strokeWidth: 4,
+                            strokeOpacity: 1,
+                        }),
+                        Plot.areaY({length: weatherData.hourly.time.length}, {
+                            curve: "basis",
+                            x: weatherData.hourly.time.map(d => d),
+                            y: weatherData.hourly.directRadiation.map(d => d),
+                            z: null,
+                            fill: "#f98a02",
+                            stroke: "#fda131",
+                            strokeWidth: 4,
+                            strokeOpacity: 1,
+                        }),
+                        Plot.text(weatherData.daily, {
+                            x: "sunrise",
+                            y: 0,
+                        })
                     ]
                 });
-                const element = document.getElementById("wind-chart");
+                const element = document.getElementById("sunlight-chart");
                 element?.append(plot);
             }
         },
@@ -107,8 +99,8 @@
 
 <template>
     <div class="widget-container">
-        <div class="chart-header"><p>Wind</p><p class="mono">m/s</p></div>
-        <div id="wind-chart"></div>
+        <div class="chart-header"><p>Sun radiation</p><p class="mono">W/m²</p></div>
+        <div id="sunlight-chart"></div>
     </div>
 </template>
 
@@ -132,7 +124,7 @@
         width: 100%;
     }
 
-    #wind-chart {
+    #sunlight-chart {
         width: 100%;
         background-color: var(--neutral-000);
     }

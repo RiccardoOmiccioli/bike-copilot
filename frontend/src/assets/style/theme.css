@@ -76,6 +76,11 @@
     color: var(--success);
 }
 
+.mono {
+    font-family: monospace;
+    color: var(--neutral-040);
+}
+
 @keyframes cycleOpacity {
     0%, 100% {
         opacity: 1;

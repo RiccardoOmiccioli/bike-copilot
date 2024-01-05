@@ -54,6 +54,7 @@
         transition-duration: 500ms;
         transition-timing-function: cubic-bezier(0.5,0.25,0,1);
         gap: var(--large);
+        overflow: scroll;
     }
 
     .expanded {

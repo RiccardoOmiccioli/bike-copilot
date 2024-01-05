@@ -1,6 +1,7 @@
 <script lang="ts">
-    import {defineComponent, watch} from "vue";
-    import Chart from "chart.js/auto"
+    import {defineComponent} from "vue";
+    import * as Plot from "@observablehq/plot";
+    import {WeatherData} from "../../model/WeatherData"
 
     export default defineComponent({
         components: {},
@@ -11,83 +12,85 @@
         props: {
         },
         mounted() {
-            this.emitter.on("weatherUpdateCompleted", (weatherData) => {
+            this.emitter.on("weatherUpdateCompleted", (weatherData: WeatherData) => {
                 this.drawChart(weatherData);
             })
 
         },
         methods: {
-            drawChart(weatherData) {
-                const soilMoistureChartCanvas = this.$refs.soilMoistureChart as HTMLCanvasElement;
-                const timeOptions = { hour: "2-digit", hour12: false };
-
-                new Chart(soilMoistureChartCanvas, {
-                    type: "line",
-                    data: {
-                        labels: weatherData.hourly.time.map((time) => time.toLocaleTimeString("it-IT", timeOptions)),
-                        datasets: [
-                            {
-                                data: weatherData.hourly.soilMoisture0To1cm,
-                                borderColor: "rgba(0, 120, 215, 1)",
-                                borderWidth: 1,
-                                fill: false,
-                                pointStyle: false,
-                                tension: 0.4
-                            },
-                            {
-                                data: weatherData.hourly.soilMoisture1To3cm,
-                                borderColor: "rgba(0, 120, 215, 0.75)",
-                                borderWidth: 1,
-                                fill: false,
-                                pointStyle: false,
-                                tension: 0.4
-                            },
-                            {
-                                data: weatherData.hourly.soilMoisture3To9cm,
-                                borderColor: "rgba(0, 120, 215, 0.5)",
-                                borderWidth: 1,
-                                fill: false,
-                                pointStyle: false,
-                                tension: 0.4
-                            },
-                            {
-                                data: weatherData.hourly.soilMoisture9To27cm,
-                                borderColor: "rgba(0, 120, 215, 0.25)",
-                                borderWidth: 1,
-                                fill: false,
-                                pointStyle: false,
-                                tension: 0.4
-                            },
-                        ],
+            drawChart(weatherData: WeatherData) {
+                const plot = Plot.plot({
+                    margin: 32,
+                    inset: 16,
+                    style: {fontSize: "16px"},
+                    x: {
+                        type: "time",
                     },
-                    options: {
-                        plugins: {
-                            legend: {
-                                display: false,
-                                labels: {
-                                    color: 'rgb(255, 99, 132)'
-                                }
+                    y: {
+                        type: "linear",
+                        percent: true,
+                    },
+                    marks: [
+                        Plot.axisX({
+                            color: "#666666",
+                            label: null,
+                            tickFormat: (t) => {
+                                return new Date(t).getHours();
                             }
-                        },
-                        scales: {
-                            x: {
-                                ticks: {
-                                    maxTicksLimit: 24,
-                                    padding: 1,
-                                    color: "rgba(204, 204, 204, 0.25)",
-                                },
-                            },
-                            y: {
-                                ticks: {
-                                    stepSize: 1,
-                                    padding: 1,
-                                    color: "rgba(204, 204, 204, 0.25)",
-                                },
-                            },
-                        },
-                    }
+                        }),
+                        Plot.axisY({
+                            color: "#666666",
+                            label: null,
+                        }),
+                        Plot.gridY({
+                            stroke: "#666666",
+                            strokeWidth: 2,
+                        }),
+                        Plot.ruleX([new Date()], {
+                            stroke: "#333333",
+                            strokeWidth: 4,
+                            strokeDasharray: "4,4",
+                        }),
+                        Plot.line({length: weatherData.hourly.time.length}, {
+                            curve: "cardinal",
+                            x: weatherData.hourly.time.map(d => d),
+                            y: weatherData.hourly.soilMoisture9To27cm.map(d => d),
+                            z: null,
+                            stroke: "#00223d",
+                            strokeWidth: 4,
+                            strokeOpacity: 1,
+                        }),
+                        Plot.line({length: weatherData.hourly.time.length}, {
+                            curve: "cardinal",
+                            x: weatherData.hourly.time.map(d => d),
+                            y: weatherData.hourly.soilMoisture3To9cm.map(d => d),
+                            z: null,
+                            stroke: "#003e70",
+                            strokeWidth: 4,
+                            strokeOpacity: 1,
+                        }),
+                        Plot.line({length: weatherData.hourly.time.length}, {
+                            curve: "cardinal",
+                            x: weatherData.hourly.time.map(d => d),
+                            y: weatherData.hourly.soilMoisture1To3cm.map(d => d),
+                            z: null,
+                            stroke: "#005aa3",
+                            strokeWidth: 4,
+                            strokeOpacity: 1,
+                        }),
+                        Plot.line({length: weatherData.hourly.time.length}, {
+                            curve: "cardinal",
+                            x: weatherData.hourly.time.map(d => d),
+                            y: weatherData.hourly.soilMoisture0To1cm.map(d => d),
+                            z: null,
+                            stroke: "#0078d7",
+                            strokeWidth: 4,
+                            strokeOpacity: 1,
+                        }),
+                    ]
                 });
-
+                const element = document.getElementById("soil-moisture-chart");
+                element?.append(plot);
             }
         },
     });
@@ -95,8 +98,8 @@
 
 <template>
     <div class="widget-container">
-        <p>Soil moisture</p>
-        <canvas ref="soilMoistureChart"></canvas>
+        <div class="chart-header"><p>Soil moisture</p><p class="mono">%</p></div>
+        <div id="soil-moisture-chart"></div>
     </div>
 </template>
 
@@ -111,5 +114,17 @@
         align-items: center;
         justify-content: flex-start;
         width: 100%;
+    }
+
+    .chart-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    #soil-moisture-chart {
+        width: 100%;
+        background-color: var(--neutral-000);
     }
 </style>

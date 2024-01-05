@@ -1,6 +1,7 @@
 <script lang="ts">
-    import {defineComponent, watch} from "vue";
-    import Chart from "chart.js/auto"
+    import {defineComponent} from "vue";
+    import * as Plot from "@observablehq/plot";
+    import {WeatherData} from "../../model/WeatherData"
 
     export default defineComponent({
         components: {},
@@ -11,92 +12,97 @@
         props: {
         },
         mounted() {
-            this.emitter.on("weatherUpdateCompleted", (weatherData) => {
+            this.emitter.on("weatherUpdateCompleted", (weatherData: WeatherData) => {
                 this.drawChart(weatherData);
             })
 
         },
         methods: {
-            drawChart(weatherData) {
-                console.log(weatherData);
-                const temperatureChartCanvas = this.$refs.temperatureChart as HTMLCanvasElement;
-                const timeOptions = { hour: "2-digit", hour12: false };
-
-                new Chart(temperatureChartCanvas, {
-                    type: "line",
-                    data: {
-                        labels: weatherData.hourly.time.map((time) => time.toLocaleTimeString("it-IT", timeOptions)),
-                        datasets: [
-                            {
-                                data: weatherData.hourly.temperature2m,
-                                borderColor: "rgba(204, 204, 204, 1)",
-                                borderWidth: 1,
-                                fill: false,
-                                pointStyle: false,
-                                tension: 0.4
-                            },
-                            {
-                                data: weatherData.hourly.temperature80m,
-                                borderColor: "rgba(204, 204, 204, 0.75)",
-                                borderWidth: 1,
-                                fill: false,
-                                pointStyle: false,
-                                tension: 0.4
-                            },
-                            {
-                                data: weatherData.hourly.temperature120m,
-                                borderColor: "rgba(204, 204, 204, 0.5)",
-                                borderWidth: 1,
-                                fill: false,
-                                pointStyle: false,
-                                tension: 0.4
-                            },
-                            {
-                                data: weatherData.hourly.temperature180m,
-                                borderColor: "rgba(204, 204, 204, 0.25)",
-                                borderWidth: 1,
-                                fill: false,
-                                pointStyle: false,
-                                tension: 0.4
-                            },
-                            {
-                                data: weatherData.hourly.apparentTemperature,
-                                borderColor: "rgba(253, 161, 49, 1)",
-                                borderWidth: 2,
-                                fill: false,
-                                pointStyle: false,
-                                tension: 0.4
-                            },
-                        ],
+            drawChart(weatherData: WeatherData) {
+                const plot = Plot.plot({
+                    margin: 32,
+                    inset: 16,
+                    color: {
+                        domain: [-10, 30],
+                        type: "diverging",
+                        scheme: "BuRd"
                     },
-                    options: {
-                        plugins: {
-                            legend: {
-                                display: false,
-                                labels: {
-                                    color: 'rgb(255, 99, 132)'
-                                }
+                    style: {fontSize: "16px"},
+                    x: {
+                        type: "time",
+                    },
+                    y: {
+                        type: "linear",
+                    },
+                    marks: [
+                        Plot.axisX({
+                            color: "#666666",
+                            label: null,
+                            tickFormat: (t) => {
+                                return new Date(t).getHours();
                             }
-                        },
-                        scales: {
-                            x: {
-                                ticks: {
-                                    maxTicksLimit: 24,
-                                    padding: 1,
-                                    color: "rgba(204, 204, 204, 0.25)",
-                                },
-                            },
-                            y: {
-                                ticks: {
-                                    stepSize: 1,
-                                    padding: 1,
-                                    color: "rgba(204, 204, 204, 0.25)",
-                                },
-                            },
-                        },
-                    }
+                        }),
+                        Plot.axisY({
+                            color: "#666666",
+                            label: null
+                        }),
+                        Plot.gridY({
+                            stroke: "#666666",
+                            strokeWidth: 2,
+                        }),
+                        Plot.ruleX([new Date()], {
+                            stroke: "#333333",
+                            strokeWidth: 4,
+                            strokeDasharray: "4,4",
+                        }),
+                        Plot.line({length: weatherData.hourly.time.length}, {
+                            curve: "cardinal",
+                            x: weatherData.hourly.time.map(d => d),
+                            y: weatherData.hourly.temperature180m.map(d => d),
+                            z: null,
+                            stroke: "#1a1a1a",
+                            strokeWidth: 4,
+                            strokeOpacity: 1,
+                        }),
+                        Plot.line({length: weatherData.hourly.time.length}, {
+                            curve: "cardinal",
+                            x: weatherData.hourly.time.map(d => d),
+                            y: weatherData.hourly.temperature120m.map(d => d),
+                            z: null,
+                            stroke: "#333333",
+                            strokeWidth: 4,
+                            strokeOpacity: 1,
+                        }),
+                        Plot.line({length: weatherData.hourly.time.length}, {
+                            curve: "cardinal",
+                            x: weatherData.hourly.time.map(d => d),
+                            y: weatherData.hourly.temperature80m.map(d => d),
+                            z: null,
+                            stroke: "#4d4d4d",
+                            strokeWidth: 4,
+                            strokeOpacity: 1,
+                        }),
+                        Plot.line({length: weatherData.hourly.time.length}, {
+                            curve: "cardinal",
+                            x: weatherData.hourly.time.map(d => d),
+                            y: weatherData.hourly.temperature2m.map(d => d),
+                            z: null,
+                            stroke: "#666666",
+                            strokeWidth: 4,
+                            strokeOpacity: 1,
+                        }),
+                        Plot.line({length: weatherData.hourly.time.length}, {
+                            curve: "cardinal",
+                            x: weatherData.hourly.time.map(d => d),
+                            y: weatherData.hourly.apparentTemperature.map(d => d),
+                            z: null,
+                            stroke: "#ffa333",
+                            strokeWidth: 4,
+                        }),
+                    ]
                 });
-
+                const element = document.getElementById("temperature-chart");
+                element?.append(plot);
             }
         },
     });
@@ -104,8 +110,8 @@
 
 <template>
     <div class="widget-container">
-        <p>Temperature</p>
-        <canvas ref="temperatureChart"></canvas>
+        <div class="chart-header"><p>Temperature</p><p class="mono">°C</p></div>
+        <div id="temperature-chart"></div>
     </div>
 </template>
 
@@ -120,5 +126,17 @@
         align-items: center;
         justify-content: flex-start;
         width: 100%;
+    }
+
+    .chart-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    #temperature-chart {
+        width: 100%;
+        background-color: var(--neutral-000);
     }
 </style>
