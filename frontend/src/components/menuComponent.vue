@@ -1,10 +1,11 @@
 <script lang="ts">
     import {defineComponent} from "vue";
     import segmentedButton from "./buttons/segmentedButton.vue";
+    import localityComponent from "./localityComponent.vue";
     import weatherComponent from "./weatherComponent.vue";
 
     export default defineComponent({
-        components: { segmentedButton, weatherComponent },
+        components: { segmentedButton, localityComponent, weatherComponent },
         data() {
             return {
                 show: false,
@@ -35,6 +36,7 @@
                 {value: 'outdoor', id: 'outdoor', label: 'Outdoor'},
                 ]" group-name="theme-type" emitter-event="mapThemeSelected"/>
         </div>
+        <localityComponent></localityComponent>
         <weatherComponent></weatherComponent>
     </div>
 </template>
@@ -53,7 +55,7 @@
         background-color: var(--neutral-000);
         transition-duration: 500ms;
         transition-timing-function: cubic-bezier(0.5,0.25,0,1);
-        gap: var(--large);
+        gap: var(--gigantic);
         overflow: scroll;
     }
 

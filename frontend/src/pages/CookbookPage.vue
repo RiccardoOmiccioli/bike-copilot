@@ -6,14 +6,23 @@
   import islandContainer from "../components/containers/islandContainer.vue";
   import segmentedButton from "../components/buttons/segmentedButton.vue";
   import weatherComponent from "../components/weatherComponent.vue";
+  import outlinedTextField from "../components/textFields/outlinedTextField.vue"
 
   export default defineComponent({
-    components: { filledButton, outlinedButton, centeredContainer, islandContainer, segmentedButton, weatherComponent },
+    components: { filledButton, outlinedButton, centeredContainer, islandContainer, segmentedButton, weatherComponent, outlinedTextField },
     data() {
       return {
+        inputTextValue: "Default",
       };
     },
     methods:{
+      handleTextField(value: String) {
+        console.log(value);
+        this.inputTextValue = "Changed";
+      },
+      handleTextField2(value: String) {
+        console.log("2 " + value);
+      }
     },
   });
 </script>
@@ -24,6 +33,12 @@
       <centeredContainer>
         <filledButton @click="">Button</filledButton>
         <outlinedButton @click="">Button</outlinedButton>
+      </centeredContainer>
+      <centeredContainer>
+        <outlinedTextField :inputValue="inputTextValue" @input-submit="handleTextField"></outlinedTextField>
+      </centeredContainer>
+      <centeredContainer>
+        <outlinedTextField @input-submit="handleTextField2"></outlinedTextField>
       </centeredContainer>
       <islandContainer>
         <span class="material-symbols-outlined">satellite_alt</span>

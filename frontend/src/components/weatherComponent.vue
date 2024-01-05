@@ -5,6 +5,7 @@
     import windWidget from "./widgets/windWidget.vue";
     import soilMoistureWidget from "./widgets/soilMoistureWidget.vue";
     import sunlightWidget from "./widgets/sunlightWidget.vue";
+    import axios from "axios";
 
     const url = "https://api.open-meteo.com/v1/forecast";
 
@@ -14,6 +15,7 @@
         components: { temperatureWidget, windWidget, soilMoistureWidget, sunlightWidget },
         data() {
             return {
+                locality: "",
                 params: {
 	                "latitude": 0.0,
 	                "longitude": 0.0,
@@ -34,13 +36,24 @@
             this.emitter.on('updateWeather', () => {
                 this.updateWeather();
             });
+
+            this.emitter.on('localitySearched', (locality: String) => {
+                this.locality = String(locality);
+                this.updateWeather();
+            });
         },
         methods: {
             updateWeather() {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(async (position) => {
-                        this.params.latitude = position.coords.latitude;
-                        this.params.longitude = position.coords.longitude;
+                        if (this.locality !== "") {
+                            axios.get(`https://geocoding-api.open-meteo.com/v1/search?name=${this.locality}&count=1&format=json`).then(response => {
+                                console.log(response);
+                            });
+                        } else {
+                            this.params.latitude = position.coords.latitude;
+                            this.params.longitude = position.coords.longitude;
+                        }
 
                         let responses = await fetchWeatherApi(url, this.params);
                         const response = responses[0];
