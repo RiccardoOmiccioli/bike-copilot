@@ -43,19 +43,8 @@
             });
         },
         methods: {
-            updateWeather() {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(async (position) => {
-                        if (this.locality !== "") {
-                            axios.get(`https://geocoding-api.open-meteo.com/v1/search?name=${this.locality}&count=1&format=json`).then(response => {
-                                console.log(response);
-                            });
-                        } else {
-                            this.params.latitude = position.coords.latitude;
-                            this.params.longitude = position.coords.longitude;
-                        }
-
-                        let responses = await fetchWeatherApi(url, this.params);
+            async loadWeatherData() {
+                let responses = await fetchWeatherApi(url, this.params);
                         const response = responses[0];
                         const utcOffsetSeconds = response.utcOffsetSeconds();
                         // const timezone = response.timezone();
@@ -103,7 +92,22 @@
                         }
                         console.log(weatherData);
                         this.emitter.emit('weatherUpdateCompleted', weatherData);
+            },
+            updateWeather() {
+                if (this.locality !== "") {
+                    axios.get(`https://geocoding-api.open-meteo.com/v1/search?name=${this.locality}&count=1&format=json`).then(response => {
+                        this.params.latitude = response.data.results[0].latitude;
+                        this.params.longitude = response.data.results[0].longitude;
+                        this.loadWeatherData();
                     });
+                } else {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(async (position) => {
+                            this.params.latitude = position.coords.latitude;
+                            this.params.longitude = position.coords.longitude;
+                            this.loadWeatherData();
+                        });
+                    }
                 }
             }
         },

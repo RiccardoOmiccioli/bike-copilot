@@ -7,19 +7,24 @@
         components: {},
         data() {
             return {
+                plot: Plot.plot(),
             }
         },
         props: {
         },
         mounted() {
+            const element = document.getElementById("soil-moisture-chart");
+            element?.append(this.plot);
+
             this.emitter.on("weatherUpdateCompleted", (weatherData: WeatherData) => {
                 this.drawChart(weatherData);
             })
-
         },
         methods: {
             drawChart(weatherData: WeatherData) {
-                const plot = Plot.plot({
+                const element = document.getElementById("soil-moisture-chart");
+                element?.removeChild(this.plot);
+                this.plot = Plot.plot({
                     margin: 32,
                     inset: 16,
                     style: {fontSize: "16px"},
@@ -89,8 +94,7 @@
                         }),
                     ]
                 });
-                const element = document.getElementById("soil-moisture-chart");
-                element?.append(plot);
+                element?.append(this.plot);
             }
         },
     });

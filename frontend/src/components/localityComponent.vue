@@ -19,7 +19,6 @@
                     const latitude = position.coords.latitude;
                     const longitude = position.coords.longitude;
                     axios.get(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`).then(response => {
-                        console.log(response);
                         this.city = response.data.city;
                         this.countryName = response.data.countryName;
                     });
@@ -27,7 +26,6 @@
         },
         methods: {
             searchLocality(value: String) {
-                console.log(value);
                 this.emitter.emit('localitySearched', value);
             }
         },
@@ -35,7 +33,7 @@
 </script>
 
 <template>
-    <outlinedTextField :inputValue="`${city}, ${countryName}`" @input-submit="searchLocality" class="locality-text-field"></outlinedTextField>
+    <outlinedTextField :inputValue="`${city}`" @input-submit="searchLocality" class="locality-text-field"></outlinedTextField>
 </template>
 
 <style lang="scss" scoped>

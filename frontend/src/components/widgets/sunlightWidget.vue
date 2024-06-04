@@ -7,19 +7,24 @@
         components: {},
         data() {
             return {
+                plot: Plot.plot(),
             }
         },
         props: {
         },
         mounted() {
+            const element = document.getElementById("sunlight-chart");
+            element?.append(this.plot);
+
             this.emitter.on("weatherUpdateCompleted", (weatherData: WeatherData) => {
                 this.drawChart(weatherData);
             })
-
         },
         methods: {
             drawChart(weatherData: WeatherData) {
-                const plot = Plot.plot({
+                const element = document.getElementById("sunlight-chart");
+                element?.removeChild(this.plot);
+                this.plot = Plot.plot({
                     inset: 16,
                     style: {fontSize: "16px"},
                     x: {
@@ -90,8 +95,7 @@
                         })
                     ]
                 });
-                const element = document.getElementById("sunlight-chart");
-                element?.append(plot);
+                element?.append(this.plot);
             }
         },
     });

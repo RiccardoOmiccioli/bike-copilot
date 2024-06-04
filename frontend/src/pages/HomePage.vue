@@ -32,7 +32,7 @@
   <main>
       <div class="info-container">
         <div class="info">
-          <h1>Bike Copilot</h1>
+          <img src="../../public/logo_dark_round.svg" alt="logo" id="logo">
           <div>
             <p>Welcome to Bike Copilot - a free tool developed by a passionate mountain biker to be your digital guide, providing the information you need during rides or route planning.
               Check the world using the provided maps designed for cycling and outdoor exploration.
@@ -61,6 +61,11 @@
 </template>
 
 <style lang="scss">
+  #logo {
+    width: 3.583rem;
+    height: 3.583rem;
+  }
+
   .info-container {
     width: calc(100% - 2 * var(--gigantic));
     height: calc(100% - 2 * var(--gigantic));
@@ -76,7 +81,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--micro);
+    gap: var(--huge);
   }
 
   img {
