@@ -15,7 +15,7 @@
       "url": "https://api.maptiler.com/tiles/v3/tiles.json?key={key}"
     }
   },
-  "sprite": "https://github.com/RiccardoOmiccioli/bike-copilot/tree/main/frontend/public/sprites",
+  "sprite": "https://raw.githubusercontent.com/RiccardoOmiccioli/bike-copilot/main/frontend/public/sprites/sprites",
   "glyphs": "https://orangemug.github.io/font-glyphs/glyphs/{fontstack}/{range}.pbf",
   "layers": [
     {
@@ -447,8 +447,8 @@
         "icon-allow-overlap": true,
         "icon-ignore-placement": false,
         "icon-optional": false,
-        "icon-image": "drinking_water",
         "icon-padding": 0,
+        "icon-image": "drinking_water",
         "icon-size": 1
       },
       "paint": {"icon-opacity": {"stops": [[12, 0], [12.25, 1]]}}
