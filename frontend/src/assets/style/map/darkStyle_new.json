@@ -78,7 +78,10 @@
       "source-layer": "water-feature",
       "filter": ["all", ["==", "$type", "LineString"]],
       "layout": {"visibility": "visible", "line-cap": "round"},
-      "paint": {"line-width": {"stops": [[12, 1], [18, 4]]}}
+      "paint": {
+        "line-width": {"stops": [[12, 1], [18, 4]]},
+        "line-opacity": {"stops": [[12, 0], [13, 1]]}
+      }
     },
     {
       "id": "waterway-stream",
@@ -90,7 +93,7 @@
       "paint": {
         "line-color": "rgba(6, 31, 44, 1)",
         "line-width": {"stops": [[12, 1], [18, 4]]},
-        "line-opacity": {"stops": [[9, 0], [10, 1]]}
+        "line-opacity": {"stops": [[12, 0], [13, 1]]}
       }
     },
     {

@@ -15,6 +15,11 @@
       this.emitter.on('toggleFullscreen', () => {
           this.toggleFullscreen();
       });
+      try {
+        navigator.wakeLock.request("screen");
+      } catch(error) {
+        console.log("Wake Lock not obtained");
+      }
     },
     methods:{
       toggleFullscreen() {
