@@ -9,10 +9,6 @@
     "thunderforest_outdoors": {
       "type": "vector",
       "url": "https://tile.thunderforest.com/thunderforest.outdoors-v2.json?apikey=7f778fb97d3e4016a477c7b12a60cbf5"
-    },
-    "openmaptiles": {
-      "type": "vector",
-      "url": "https://api.maptiler.com/tiles/v3/tiles.json?key={key}"
     }
   },
   "sprite": "https://raw.githubusercontent.com/RiccardoOmiccioli/bike-copilot/main/frontend/public/sprites/sprites",
@@ -51,7 +47,7 @@
       "source-layer": "wetland",
       "layout": {"visibility": "visible"},
       "paint": {
-        "fill-color": "rgba(6, 31, 44, 1)",
+        "fill-color": "rgba(3, 16, 22, 1)",
         "fill-opacity": {"stops": [[9, 0], [10, 1]]}
       }
     },
@@ -64,11 +60,11 @@
       "paint": {"fill-color": "rgba(6, 31, 44, 1)"}
     },
     {
-      "id": "water_feature",
+      "id": "water-feature-polygon",
       "type": "fill",
       "source": "thunderforest_outdoors",
       "source-layer": "water-feature",
-      "filter": ["all"],
+      "filter": ["all", ["==", "$type", "Polygon"]],
       "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": "rgba(0, 0, 0, 1)",
@@ -76,15 +72,37 @@
       }
     },
     {
+      "id": "water-feature-line",
+      "type": "line",
+      "source": "thunderforest_outdoors",
+      "source-layer": "water-feature",
+      "filter": ["all", ["==", "$type", "LineString"]],
+      "layout": {"visibility": "visible", "line-cap": "round"},
+      "paint": {"line-width": {"stops": [[12, 1], [18, 4]]}}
+    },
+    {
+      "id": "waterway-stream",
+      "type": "line",
+      "source": "thunderforest_outdoors",
+      "source-layer": "waterway",
+      "filter": ["all", ["==", "waterway", "stream"]],
+      "layout": {"visibility": "visible", "line-cap": "round"},
+      "paint": {
+        "line-color": "rgba(6, 31, 44, 1)",
+        "line-width": {"stops": [[12, 1], [18, 4]]},
+        "line-opacity": {"stops": [[9, 0], [10, 1]]}
+      }
+    },
+    {
       "id": "waterway",
       "type": "line",
       "source": "thunderforest_outdoors",
       "source-layer": "waterway",
-      "filter": ["all", ["!=", "tunnel", "yes"]],
+      "filter": ["all", ["!=", "tunnel", "yes"], ["!=", "waterway", "stream"]],
       "layout": {"visibility": "visible", "line-cap": "round"},
       "paint": {
         "line-color": "rgba(6, 31, 44, 1)",
-        "line-width": {"stops": [[12, 1], [18, 18]]},
+        "line-width": {"stops": [[12, 1], [18, 10]]},
         "line-opacity": {"stops": [[9, 0], [10, 1]]}
       }
     },
@@ -106,24 +124,59 @@
       }
     },
     {
-      "id": "bridge",
-      "type": "fill",
-      "source": "openmaptiles",
-      "source-layer": "transportation",
-      "filter": ["all", ["==", "class", "bridge"]],
-      "layout": {"visibility": "visible"},
-      "paint": {"fill-color": "rgba(0, 0, 0, 1)"}
-    },
-    {
-      "id": "bridge_line",
+      "id": "bridge_railway",
       "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "transportation",
-      "filter": ["all", ["==", "brunnel", "bridge"]],
-      "layout": {"line-cap": "square"},
+      "source": "thunderforest_outdoors",
+      "source-layer": "railway",
+      "filter": ["all", ["==", "bridge", "yes"]],
+      "layout": {"line-cap": "square", "visibility": "visible"},
       "paint": {
         "line-color": "rgba(0, 0, 0, 1)",
-        "line-width": {"stops": [[12, 1], [18, 20]]}
+        "line-width": {"stops": [[12, 1], [18, 24]]}
+      }
+    },
+    {
+      "id": "railway-disused-hatching",
+      "type": "line",
+      "source": "thunderforest_outdoors",
+      "source-layer": "railway",
+      "minzoom": 8,
+      "filter": ["all", ["==", "railway", "disused"]],
+      "layout": {"line-cap": "butt", "visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(74, 28, 28, 1)",
+        "line-width": {"stops": [[6, 4], [12, 6]]},
+        "line-opacity": {"stops": [[6, 0], [7, 1]]},
+        "line-dasharray": [0.2, 4]
+      }
+    },
+    {
+      "id": "railway-disused",
+      "type": "line",
+      "source": "thunderforest_outdoors",
+      "source-layer": "railway",
+      "minzoom": 8,
+      "filter": ["all", ["==", "railway", "disused"]],
+      "layout": {"line-cap": "round", "visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(74, 28, 28, 1)",
+        "line-width": {"stops": [[6, 1], [12, 2]]},
+        "line-opacity": {"stops": [[6, 0], [7, 1]]}
+      }
+    },
+    {
+      "id": "railway-hatching",
+      "type": "line",
+      "source": "thunderforest_outdoors",
+      "source-layer": "railway",
+      "minzoom": 8,
+      "filter": ["all", ["==", "railway", "rail"]],
+      "layout": {"line-cap": "butt"},
+      "paint": {
+        "line-color": "rgba(115, 38, 38, 1)",
+        "line-width": {"stops": [[6, 4], [12, 6]]},
+        "line-opacity": {"stops": [[6, 0], [7, 1]]},
+        "line-dasharray": [0.2, 4]
       }
     },
     {
@@ -137,8 +190,31 @@
       "paint": {
         "line-color": "rgba(115, 38, 38, 1)",
         "line-width": {"stops": [[6, 1], [12, 2]]},
-        "line-dasharray": [3, 3],
         "line-opacity": {"stops": [[6, 0], [7, 1]]}
+      }
+    },
+    {
+      "id": "bridge_road",
+      "type": "line",
+      "source": "thunderforest_outdoors",
+      "source-layer": "road",
+      "filter": ["all", ["in", "bridge", "yes", "viaduct"]],
+      "layout": {"line-cap": "square", "visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(0, 0, 0, 1)",
+        "line-width": {"stops": [[12, 1], [18, 24]]}
+      }
+    },
+    {
+      "id": "bridge_path",
+      "type": "line",
+      "source": "thunderforest_outdoors",
+      "source-layer": "path",
+      "filter": ["all", ["==", "bridge", "yes"]],
+      "layout": {"line-cap": "square", "visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(0, 0, 0, 1)",
+        "line-width": {"stops": [[12, 1], [18, 24]]}
       }
     },
     {
@@ -168,7 +244,7 @@
         "line-color": "rgba(38, 38, 38, 1)",
         "line-opacity": {"stops": [[12, 0], [13, 1]]},
         "line-width": {"stops": [[12, 1], [18, 3]]},
-        "line-dasharray": [2, 1]
+        "line-dasharray": [4, 1]
       }
     },
     {
