@@ -8,6 +8,22 @@
             }
         },
         mounted() {
+            let currentView = 0;
+            this.emitter.on("changeMapView", () => {
+                currentView = (currentView + 1) % 3;
+                switch (currentView) {
+                    case 0:
+                        map.easeTo({ bearing: 0, pitch: 0, zoom: 14.5 });
+                        break;
+                    case 1:
+                        map.easeTo({ pitch: 0, zoom: 14.5 });
+                        break;
+                    case 2:
+                        map.easeTo({ pitch: 45, zoom: 16 });
+                        break;
+                }
+            });
+
             let map = new maplibregl.Map({
                 container: 'map',
                 style: 'src/assets/style/map/darkStyle_new.json',
@@ -21,16 +37,20 @@
 
             const userLocationElement = document.createElement('div');
             userLocationElement.className = 'user-location-marker';
-            let userLocationMarker = new maplibregl.Marker({element: userLocationElement}).setLngLat([0,0]).addTo(map);
-
+            let userLocationMarker = new maplibregl.Marker({element: userLocationElement, pitchAlignment: 'map', rotationAlignment: 'viewport'}).setLngLat([0,0]).addTo(map);
+            let userPosition = { latitude: 0, longitude: 0, heading: 0};
             const trackUserPosition = () => {
                 if (navigator.geolocation) {
                     navigator.geolocation.watchPosition(
                         (position) => {
-                            map.easeTo({ center:[position.coords.longitude, position.coords.latitude], bearing:position.coords.heading??0, zoom: 14.5 });
-                            userLocationMarker.setLngLat([position.coords.longitude, position.coords.latitude]);
-                            userLocationMarker.setRotation(position.coords.heading??0);
-                            console.log(position);
+                            if (position.coords.heading != null && position.coords.heading != userPosition.heading) {
+                                userPosition.heading = position.coords.heading;
+                            }
+                            userPosition.latitude = position.coords.latitude;
+                            userPosition.longitude = position.coords.longitude;
+                            map.flyTo({ center:[userPosition.longitude, userPosition.latitude], zoom: 15, padding: {top: 500, bottom:0, left: 0, right: 0}, bearing: currentView == 0 ? 0 : userPosition.heading??0});
+                            userLocationMarker.setLngLat([userPosition.longitude, userPosition.latitude]);
+                            userLocationMarker.setRotation(userPosition.heading??0);
                         },
                         (error) => {
                             console.error(`Error getting user location: ${error.code}`);
@@ -42,7 +62,7 @@
                         }
                     );
                 } else {
-                    console.error('Geolocation is not supported by this browser.');
+                    console.error('Geolocation is not supported by this browser');
                 }
             };
 
@@ -53,22 +73,6 @@
 
             map.on('zoom', () => {
                 this.emitter.emit("zoomChanged", (map.getZoom() - map.getMinZoom()) / (map.getMaxZoom() - map.getMinZoom()));
-            });
-
-            let currentView = 0;
-            this.emitter.on("changeMapView", () => {
-                currentView = (currentView + 1) % 3;
-                switch (currentView) {
-                    case 0:
-                        map.easeTo({ bearing: 0, pitch: 0, zoom: 14.5 });
-                        break;
-                    case 1:
-                        map.easeTo({ pitch: 0, zoom: 14.5 });
-                        break;
-                    case 2:
-                        map.easeTo({ pitch: 45, zoom: 14.5 });
-                        break;
-                }
             });
 
             this.emitter.on("satelliteButtonClicked", () => {
@@ -116,19 +120,28 @@
         width: 32px;
         height: 32px;
         background-image: url('../assets/icons/navigation.svg');
-        animation: glow 2s infinite alternate;
-        animation-timing-function: ease-in-out;
     }
 
-    @keyframes glow {
-    0% {
-        filter: drop-shadow(0 0 0px hsl(33, 98%, 59%));
+    .user-location-marker::before {
+        content: "";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background-image: url('../assets/icons/navigation.svg');
+        animation: ripple 6s cubic-bezier(0.2, 0.5, 0.2, 1) infinite;
     }
-    50% {
-        filter: drop-shadow(0 0 3px hsl(33, 98%, 79%));
+
+    @keyframes ripple {
+        0% {
+            opacity: 0.5;
+            transform: scale(1);
+        }
+        25% {
+            opacity: 0;
+            transform: scale(2);
+        }
+        100% {
+            opacity: 0;
+        }
     }
-    100% {
-        filter: drop-shadow(0 0 0px hsl(33, 98%, 59%));
-    }
-}
 </style>
