@@ -9,9 +9,13 @@
     "thunderforest_outdoors": {
       "type": "vector",
       "url": "https://tile.thunderforest.com/thunderforest.outdoors-v2.json?apikey=7f778fb97d3e4016a477c7b12a60cbf5"
+    },
+    "openmaptiles": {
+      "type": "vector",
+      "url": "https://api.maptiler.com/tiles/v3/tiles.json?key={key}"
     }
   },
-  "sprite": "https://maputnik.github.io/osm-liberty/sprites/osm-liberty",
+  "sprite": "https://github.com/RiccardoOmiccioli/bike-copilot/tree/main/frontend/public/sprites",
   "glyphs": "https://orangemug.github.io/font-glyphs/glyphs/{fontstack}/{range}.pbf",
   "layers": [
     {
@@ -76,7 +80,7 @@
       "type": "line",
       "source": "thunderforest_outdoors",
       "source-layer": "waterway",
-      "filter": ["all"],
+      "filter": ["all", ["!=", "tunnel", "yes"]],
       "layout": {"visibility": "visible", "line-cap": "round"},
       "paint": {
         "line-color": "rgba(6, 31, 44, 1)",
@@ -85,11 +89,50 @@
       }
     },
     {
+      "id": "waterway-tunnel",
+      "type": "line",
+      "source": "thunderforest_outdoors",
+      "source-layer": "waterway",
+      "filter": ["all", ["==", "tunnel", "yes"]],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "butt",
+        "line-join": "miter"
+      },
+      "paint": {
+        "line-color": "rgba(0, 0, 0, 1)",
+        "line-width": {"stops": [[12, 1], [18, 18]]},
+        "line-opacity": {"stops": [[9, 0], [10, 1]]}
+      }
+    },
+    {
+      "id": "bridge",
+      "type": "fill",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": ["all", ["==", "class", "bridge"]],
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(0, 0, 0, 1)"}
+    },
+    {
+      "id": "bridge_line",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": ["all", ["==", "brunnel", "bridge"]],
+      "layout": {"line-cap": "square"},
+      "paint": {
+        "line-color": "rgba(0, 0, 0, 1)",
+        "line-width": {"stops": [[12, 1], [18, 20]]}
+      }
+    },
+    {
       "id": "railway",
       "type": "line",
       "source": "thunderforest_outdoors",
       "source-layer": "railway",
       "minzoom": 8,
+      "filter": ["all", ["==", "railway", "rail"]],
       "layout": {"line-cap": "round"},
       "paint": {
         "line-color": "rgba(115, 38, 38, 1)",
@@ -282,8 +325,9 @@
       "source": "thunderforest_outdoors",
       "source-layer": "railway-station",
       "minzoom": 12,
+      "filter": ["all", ["==", "railway", "station"]],
       "layout": {
-        "visibility": "visible",
+        "visibility": "none",
         "icon-image": "railway",
         "symbol-z-order": "auto",
         "symbol-placement": "point",
@@ -340,7 +384,7 @@
       "filter": ["all", ["==", "feature", "shop_bicycle"]],
       "layout": {
         "visibility": "visible",
-        "icon-image": "bicycle",
+        "icon-image": "bicycle_shop",
         "symbol-z-order": "auto",
         "symbol-placement": "point",
         "icon-padding": 0,
@@ -381,7 +425,7 @@
         "symbol-z-order": "auto",
         "symbol-placement": "point",
         "icon-padding": 0,
-        "icon-image": "bicycle",
+        "icon-image": "bicycle_repair",
         "icon-allow-overlap": true
       },
       "paint": {"icon-opacity": {"stops": [[14, 0], [14.25, 1]]}}
@@ -398,13 +442,14 @@
         "visibility": "visible",
         "icon-rotation-alignment": "auto",
         "symbol-z-order": "auto",
-        "icon-padding": 0,
         "text-allow-overlap": false,
         "text-ignore-placement": false,
         "icon-allow-overlap": true,
         "icon-ignore-placement": false,
         "icon-optional": false,
-        "icon-image": "drinking_water"
+        "icon-image": "drinking_water",
+        "icon-padding": 0,
+        "icon-size": 1
       },
       "paint": {"icon-opacity": {"stops": [[12, 0], [12.25, 1]]}}
     },
