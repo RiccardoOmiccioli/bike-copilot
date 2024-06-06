@@ -60,6 +60,7 @@
                 requestAnimationFrame(step);
             }
 
+            let firstTrack = true;
             const trackUserPosition = () => {
                 if (navigator.geolocation) {
                     navigator.geolocation.watchPosition(
@@ -69,16 +70,36 @@
                             }
                             userPosition.latitude = position.coords.latitude;
                             userPosition.longitude = position.coords.longitude;
-                            map.flyTo({
-                                center:[userPosition.longitude, userPosition.latitude],
-                                zoom: currentView == 2 ? 16 : 14.5,
-                                bearing: currentView == 0 ? 0 : userPosition.heading??0,
-                                padding: {top: 500, bottom:0, left: 0, right: 0},
-                                duration: 500
-                            });
+                            switch (currentView) {
+                                case 0:
+                                    map.flyTo({
+                                        center: [firstTrack? userPosition.longitude : map.getCenter().lng, firstTrack? userPosition.latitude : map.getCenter().lat],
+                                        zoom: firstTrack? 14.5 : map.getZoom(),
+                                        bearing: 0,
+                                        padding: {top: window.innerHeight * 3/5, bottom:0, left: 0, right: 0},
+                                        duration: 500
+                                    });
+                                    firstTrack = false;
+                                    break;
+                                case 1:
+                                    map.flyTo({
+                                        bearing: userPosition.heading??0,
+                                        padding: {top: 500, bottom:0, left: 0, right: 0},
+                                        duration: 500
+                                    });
+                                    break;
+                                case 2:
+                                map.flyTo({
+                                    center:[userPosition.longitude, userPosition.latitude],
+                                    zoom: 16,
+                                    pitch: 45,
+                                    bearing: userPosition.heading??0,
+                                    padding: {top: 500, bottom:0, left: 0, right: 0},
+                                    duration: 500
+                                });
+                                break;
+                            }
                             requestAnimationFrame(moveUserLocationMarker);
-                            // userLocationMarker.setLngLat([userPosition.longitude, userPosition.latitude]);
-                            // userLocationMarker.setRotation(userPosition.heading??0);
                         },
                         (error) => {
                             console.error(`Error getting user location: ${error.code}`);
