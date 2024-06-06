@@ -68,6 +68,11 @@
                             if (position.coords.heading != null && position.coords.heading != userPosition.heading) {
                                 userPosition.heading = position.coords.heading;
                             }
+                            if (position.coords.accuracy != null && position.coords.accuracy >20) {
+                                userLocationElement.classList.add('error');
+                            } else {
+                                userLocationElement.classList.remove('error');
+                            }
                             userPosition.latitude = position.coords.latitude;
                             userPosition.longitude = position.coords.longitude;
                             switch (currentView) {
@@ -171,19 +176,26 @@
         background-image: url('../assets/icons/navigation.svg');
     }
 
+    .user-location-marker.error::before {
+        background-color: var(--error);
+        width: 100%;
+        height: 100%;
+    }
+
     .user-location-marker::before {
         content: "";
         width: 100%;
         height: 100%;
         position: absolute;
-        background-image: url('../assets/icons/navigation.svg');
+        background-color: hsl(0deg 0% 90%);
+        border-radius: 100px;
         animation: ripple 6s cubic-bezier(0.2, 0.5, 0.2, 1) infinite;
     }
 
     @keyframes ripple {
         0% {
             opacity: 0.5;
-            transform: scale(1);
+            transform: scale(0);
         }
         25% {
             opacity: 0;
