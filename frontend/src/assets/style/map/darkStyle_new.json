@@ -237,7 +237,11 @@
       "type": "line",
       "source": "thunderforest_outdoors",
       "source-layer": "path",
-      "filter": ["all", ["!=", "highway", "cycleway"]],
+      "filter": [
+        "all",
+        ["!=", "highway", "cycleway"],
+        ["!in", "bicycle", "yes", "designated"]
+      ],
       "layout": {
         "visibility": "visible",
         "line-cap": "butt",
@@ -245,6 +249,24 @@
       },
       "paint": {
         "line-color": "rgba(38, 38, 38, 1)",
+        "line-opacity": {"stops": [[12, 0], [13, 1]]},
+        "line-width": {"stops": [[12, 1], [18, 3]]},
+        "line-dasharray": [4, 1]
+      }
+    },
+    {
+      "id": "path_bicycle",
+      "type": "line",
+      "source": "thunderforest_outdoors",
+      "source-layer": "path",
+      "filter": ["all", ["in", "bicycle", "yes", "designated"]],
+      "layout": {
+        "line-cap": "butt",
+        "visibility": "visible",
+        "line-join": "bevel"
+      },
+      "paint": {
+        "line-color": "rgba(255, 163, 51, 1)",
         "line-opacity": {"stops": [[12, 0], [13, 1]]},
         "line-width": {"stops": [[12, 1], [18, 3]]},
         "line-dasharray": [4, 1]
@@ -434,6 +456,21 @@
         "text-halo-width": 1,
         "text-opacity": {"stops": [[12, 0], [12.5, 1]]}
       }
+    },
+    {
+      "id": "barrier",
+      "type": "symbol",
+      "source": "thunderforest_outdoors",
+      "source-layer": "barrier",
+      "filter": ["all", ["==", "feature", "gate"]],
+      "layout": {
+        "text-field": "",
+        "visibility": "visible",
+        "icon-allow-overlap": true,
+        "icon-image": "stop_1",
+        "icon-size": 1
+      },
+      "paint": {"text-color": "#000000", "icon-color": "#000000"}
     },
     {
       "id": "poi",
