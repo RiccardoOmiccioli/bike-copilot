@@ -76,7 +76,6 @@
                                         center: [firstTrack? userPosition.longitude : map.getCenter().lng, firstTrack? userPosition.latitude : map.getCenter().lat],
                                         zoom: firstTrack? 14.5 : map.getZoom(),
                                         bearing: 0,
-                                        padding: {top: window.innerHeight * 3/5, bottom:0, left: 0, right: 0},
                                         duration: 500
                                     });
                                     firstTrack = false;
@@ -84,7 +83,6 @@
                                 case 1:
                                     map.flyTo({
                                         bearing: userPosition.heading??0,
-                                        padding: {top: 500, bottom:0, left: 0, right: 0},
                                         duration: 500
                                     });
                                     break;
@@ -94,7 +92,7 @@
                                     zoom: 16,
                                     pitch: 45,
                                     bearing: userPosition.heading??0,
-                                    padding: {top: 500, bottom:0, left: 0, right: 0},
+                                    padding: {top: window.innerHeight * 3/5, bottom:0, left: 0, right: 0},
                                     duration: 500
                                 });
                                 break;
