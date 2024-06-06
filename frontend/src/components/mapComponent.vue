@@ -180,6 +180,7 @@
         background-color: var(--error);
         width: 100%;
         height: 100%;
+        animation: fast-ripple 2.5s linear infinite;
     }
 
     .user-location-marker::before {
@@ -189,20 +190,48 @@
         position: absolute;
         background-color: hsl(0deg 0% 90%);
         border-radius: 100px;
-        animation: ripple 6s cubic-bezier(0.2, 0.5, 0.2, 1) infinite;
+        animation: slow-ripple 5s linear infinite;
     }
 
-    @keyframes ripple {
+    @keyframes fast-ripple {
         0% {
-            opacity: 0.5;
+            opacity: 0.75;
             transform: scale(0);
         }
+        20% {
+            opacity: 0;
+            transform: scale(2);
+        }
         25% {
+            opacity: 0;
+            transform: scale(0);
+        }
+        30% {
+            opacity: 0.75;
+            transform: scale(0);
+        }
+        50% {
             opacity: 0;
             transform: scale(2);
         }
         100% {
             opacity: 0;
+            transform: scale(0)
+        }
+    }
+
+    @keyframes slow-ripple {
+        0% {
+            opacity: 0.5;
+            transform: scale(0);
+        }
+        10% {
+            opacity: 0;
+            transform: scale(2);
+        }
+        100% {
+            opacity: 0;
+            transform: scale(0)
         }
     }
 </style>

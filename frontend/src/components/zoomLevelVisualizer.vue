@@ -50,14 +50,15 @@
         width: $width;
         display: inline;
         border-radius: 100px;
-        background-color: var(--neutral-020);
+        background-color: var(--neutral-000);
     }
 
     .current-zoom {
         width: calc(v-bind('currentZoomPercentage') * 100%);
         max-width: 100%;
         height: var(--micro);
-        background-color: var(--neutral-030);
+        background-color: var(--neutral-080);
+        border: 0.2rem solid var(--neutral-000);
         border-radius: 100px;
     }
 
@@ -71,7 +72,7 @@
     .first-zone, .second-zone, .third-zone, .fourth-zone, .fifth-zone {
         height: var(--micro);
         border-radius: 0;
-        border: 0 solid var(--neutral-025);
+        border: 0 solid var(--neutral-000);
     }
 
     .first-zone {
