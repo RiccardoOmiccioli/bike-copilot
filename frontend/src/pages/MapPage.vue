@@ -42,12 +42,12 @@
   <main>
     <mapComponent></mapComponent>
     <menuComponent class="menu"></menuComponent>
+    <islandContainer class="main-island">
+      <span class="material-symbols-outlined" @click="this.emitter.emit('changeMapView')">assistant_navigation</span>
+      <span class="material-symbols-outlined" @click="this.emitter.emit('toggleMenu')">expand_circle_up</span>
+      <span class="material-symbols-outlined">add_circle</span>
+    </islandContainer>
     <div class="footer">
-      <islandContainer class="bottom-island">
-        <span class="material-symbols-outlined" @click="this.emitter.emit('changeMapView')">assistant_navigation</span>
-        <span class="material-symbols-outlined" @click="this.emitter.emit('toggleMenu')">expand_circle_up</span>
-        <span class="material-symbols-outlined">add_circle</span>
-      </islandContainer>
       <zoomLevelVisualizer></zoomLevelVisualizer>
     </div>
   </main>
@@ -63,6 +63,14 @@
     z-index: 1;
   }
 
+  .main-island {
+    position: absolute;
+    bottom: calc(3 * var(--micro));
+    left: 50%;
+    transform: translate(-50%);
+    margin: 0;
+  }
+
   .footer {
     width: 100%;
     display: flex;
@@ -72,5 +80,16 @@
     justify-content: center;
     position: absolute;
     bottom: var(--micro);
+  }
+
+  @media screen and (orientation: landscape) {
+    .main-island {
+      transform: unset;
+      left: var(--micro);
+    }
+
+    div.island.main-island {
+      flex-direction: column;
+    }
   }
 </style>
