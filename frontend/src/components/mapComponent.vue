@@ -13,13 +13,13 @@
                 currentView = (currentView + 1) % 3;
                 switch (currentView) {
                     case 0:
-                        map.easeTo({ bearing: 0, pitch: 0, zoom: 14.5 });
+                        map.easeTo({ center:[userPosition.longitude, userPosition.latitude], bearing: 0, pitch: 0, zoom: 14.5 });
                         break;
                     case 1:
-                        map.easeTo({ pitch: 0, zoom: 14.5 });
+                        map.easeTo({ center:[userPosition.longitude, userPosition.latitude], bearing: userPosition.heading??0, pitch: 0, zoom: 14.5 });
                         break;
                     case 2:
-                        map.easeTo({ pitch: 45, zoom: 16 });
+                        map.easeTo({ center:[userPosition.longitude, userPosition.latitude], bearing: userPosition.heading??0, pitch: 45, zoom: 16 });
                         break;
                 }
             });
@@ -37,7 +37,7 @@
 
             const userLocationElement = document.createElement('div');
             userLocationElement.className = 'user-location-marker';
-            let userLocationMarker = new maplibregl.Marker({element: userLocationElement, pitchAlignment: 'map', rotationAlignment: 'viewport'}).setLngLat([0,0]).addTo(map);
+            let userLocationMarker = new maplibregl.Marker({element: userLocationElement, pitchAlignment: 'map', rotationAlignment: 'map'}).setLngLat([0,0]).addTo(map);
             let userPosition = { latitude: 0, longitude: 0, heading: 0};
 
             function moveUserLocationMarker() {
