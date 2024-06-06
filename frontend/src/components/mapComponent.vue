@@ -68,7 +68,7 @@
                             if (position.coords.heading != null && position.coords.heading != userPosition.heading) {
                                 userPosition.heading = position.coords.heading;
                             }
-                            if (position.coords.accuracy != null && position.coords.accuracy >20) {
+                            if (position.coords.accuracy != null && position.coords.accuracy > 10) {
                                 userLocationElement.classList.add('error');
                             } else {
                                 userLocationElement.classList.remove('error');
