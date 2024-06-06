@@ -39,6 +39,27 @@
             userLocationElement.className = 'user-location-marker';
             let userLocationMarker = new maplibregl.Marker({element: userLocationElement, pitchAlignment: 'map', rotationAlignment: 'viewport'}).setLngLat([0,0]).addTo(map);
             let userPosition = { latitude: 0, longitude: 0, heading: 0};
+
+            function moveUserLocationMarker() {
+                const start = { lng: userLocationMarker.getLngLat().lng, lat: userLocationMarker.getLngLat().lat, heading: userLocationMarker.getRotation() };
+                const end = { lng: userPosition.longitude, lat: userPosition.latitude, heading: userPosition.heading };
+                const duration = 500;
+                let startTime: number = 0;
+                function step(timestamp: number) {
+                    if (!startTime) startTime = timestamp;
+                    const progress = Math.min((timestamp - startTime) / duration, 1);
+                    const currentLng = start.lng + (end.lng - start.lng) * progress;
+                    const currentLat = start.lat + (end.lat - start.lat) * progress;
+                    const currentHeading = start.heading + (end.heading - start.heading) * progress;
+                    userLocationMarker.setLngLat([currentLng, currentLat]);
+                    userLocationMarker.setRotation(currentHeading);
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    }
+                }
+                requestAnimationFrame(step);
+            }
+
             const trackUserPosition = () => {
                 if (navigator.geolocation) {
                     navigator.geolocation.watchPosition(
@@ -48,9 +69,16 @@
                             }
                             userPosition.latitude = position.coords.latitude;
                             userPosition.longitude = position.coords.longitude;
-                            map.flyTo({ center:[userPosition.longitude, userPosition.latitude], zoom: 15, padding: {top: 500, bottom:0, left: 0, right: 0}, bearing: currentView == 0 ? 0 : userPosition.heading??0});
-                            userLocationMarker.setLngLat([userPosition.longitude, userPosition.latitude]);
-                            userLocationMarker.setRotation(userPosition.heading??0);
+                            map.flyTo({
+                                center:[userPosition.longitude, userPosition.latitude],
+                                zoom: currentView == 2 ? 16 : 14.5,
+                                bearing: currentView == 0 ? 0 : userPosition.heading??0,
+                                padding: {top: 500, bottom:0, left: 0, right: 0},
+                                duration: 500
+                            });
+                            requestAnimationFrame(moveUserLocationMarker);
+                            // userLocationMarker.setLngLat([userPosition.longitude, userPosition.latitude]);
+                            // userLocationMarker.setRotation(userPosition.heading??0);
                         },
                         (error) => {
                             console.error(`Error getting user location: ${error.code}`);
