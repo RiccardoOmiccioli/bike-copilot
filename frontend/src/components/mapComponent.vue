@@ -13,13 +13,13 @@
                 currentView = (currentView + 1) % 3;
                 switch (currentView) {
                     case 0:
-                        map.easeTo({ center:[userPosition.longitude, userPosition.latitude], bearing: 0, pitch: 0, zoom: 14.5 });
+                        map.easeTo({ center:[userPosition.longitude, userPosition.latitude], bearing: 0, pitch: 0, zoom: 14.5, padding: 0 });
                         break;
                     case 1:
-                        map.easeTo({ center:[userPosition.longitude, userPosition.latitude], bearing: userPosition.heading??0, pitch: 0, zoom: 14.5 });
+                        map.easeTo({ center:[userPosition.longitude, userPosition.latitude], bearing: userPosition.heading??0, pitch: 0, zoom: 14.5, padding: 0 });
                         break;
                     case 2:
-                        map.easeTo({ center:[userPosition.longitude, userPosition.latitude], bearing: userPosition.heading??0, pitch: 45, zoom: 16 });
+                        map.easeTo({ center:[userPosition.longitude, userPosition.latitude], bearing: userPosition.heading??0, pitch: 45, zoom: 16, padding: {top: window.innerHeight * 3/5, bottom:0, left: 0, right: 0} });
                         break;
                 }
             });
@@ -75,6 +75,7 @@
                                     map.flyTo({
                                         center: [firstTrack? userPosition.longitude : map.getCenter().lng, firstTrack? userPosition.latitude : map.getCenter().lat],
                                         zoom: firstTrack? 14.5 : map.getZoom(),
+                                        padding: 0,
                                         bearing: 0,
                                         duration: 500
                                     });
@@ -83,6 +84,7 @@
                                 case 1:
                                     map.flyTo({
                                         bearing: userPosition.heading??0,
+                                        padding: 0,
                                         duration: 500
                                     });
                                     break;
