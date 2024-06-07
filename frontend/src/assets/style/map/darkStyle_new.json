@@ -22,18 +22,6 @@
       "paint": {"background-color": "rgba(0, 0, 0, 1)"}
     },
     {
-      "id": "elevation",
-      "type": "line",
-      "source": "thunderforest_outdoors",
-      "source-layer": "elevation",
-      "minzoom": 12,
-      "layout": {"visibility": "none"},
-      "paint": {
-        "line-opacity": {"stops": [[12, 0], [13, 1]]},
-        "line-color": "rgba(255, 0, 0, 1)"
-      }
-    },
-    {
       "id": "ocean",
       "type": "fill",
       "source": "thunderforest_outdoors",
@@ -382,7 +370,7 @@
       "paint": {
         "line-color": "rgba(255, 163, 51, 1)",
         "line-opacity": {"stops": [[11, 0], [12, 1]]},
-        "line-width": {"stops": [[12, 1], [18, 3]]}
+        "line-width": {"stops": [[12, 1], [18, 4]]}
       }
     },
     {
@@ -402,7 +390,11 @@
       "type": "line",
       "source": "thunderforest_outdoors",
       "source-layer": "cycling-lowzoom",
-      "layout": {"visibility": "visible"},
+      "layout": {
+        "visibility": "visible",
+        "line-join": "miter",
+        "line-cap": "butt"
+      },
       "paint": {
         "line-color": "rgba(255, 163, 51, 1)",
         "line-opacity": {"stops": [[4, 0], [5, 1], [12, 1], [12.5, 0]]}
@@ -421,75 +413,42 @@
       }
     },
     {
-      "id": "railway_station",
-      "type": "symbol",
-      "source": "thunderforest_outdoors",
-      "source-layer": "railway-station",
-      "minzoom": 12,
-      "filter": ["all", ["==", "railway", "station"]],
-      "layout": {
-        "visibility": "none",
-        "icon-image": "railway",
-        "symbol-z-order": "auto",
-        "symbol-placement": "point",
-        "icon-padding": 0,
-        "icon-text-fit": "none",
-        "icon-anchor": "center",
-        "text-anchor": "top",
-        "text-field": "{name}",
-        "text-font": ["Roboto Condensed Italic"],
-        "text-max-width": 9,
-        "text-justify": "center",
-        "text-optional": true,
-        "text-transform": "none",
-        "text-keep-upright": false,
-        "text-allow-overlap": false,
-        "text-size": {"stops": [[14, 14], [18, 18]]},
-        "text-offset": [0, 0.8],
-        "icon-allow-overlap": true
-      },
-      "paint": {
-        "icon-opacity": {"stops": [[10, 0], [11, 1]]},
-        "text-translate-anchor": "map",
-        "text-color": "rgba(128, 128, 128, 1)",
-        "text-halo-color": "rgba(32, 32, 32, 1)",
-        "text-halo-width": 1,
-        "text-opacity": {"stops": [[12, 0], [12.5, 1]]}
-      }
-    },
-    {
-      "id": "barrier",
-      "type": "symbol",
-      "source": "thunderforest_outdoors",
-      "source-layer": "barrier",
-      "filter": ["all", ["==", "feature", "gate"]],
-      "layout": {
-        "text-field": "",
-        "visibility": "visible",
-        "icon-allow-overlap": true,
-        "icon-image": "stop_1",
-        "icon-size": 1
-      },
-      "paint": {"text-color": "#000000", "icon-color": "#000000"}
-    },
-    {
-      "id": "poi",
+      "id": "poi-bar",
       "type": "symbol",
       "source": "thunderforest_outdoors",
       "source-layer": "poi-label",
-      "filter": ["all"],
+      "minzoom": 14,
+      "filter": ["all", ["in", "feature", "bar", "cafe"]],
+      "layout": {
+        "text-field": "",
+        "visibility": "none",
+        "icon-allow-overlap": false,
+        "icon-image": "bar"
+      },
+      "paint": {"icon-opacity": {"stops": [[14, 0], [14.5, 1]]}}
+    },
+    {
+      "id": "poi_toilet",
+      "type": "symbol",
+      "source": "thunderforest_outdoors",
+      "source-layer": "poi-label",
+      "minzoom": 14,
+      "filter": ["all", ["==", "feature", "toilets"]],
       "layout": {
         "text-field": "",
         "visibility": "visible",
-        "icon-image": [
-          "match",
-          ["get", "subclass"],
-          ["florist", "furniture"],
-          ["get", "subclass"],
-          ["get", "class"]
-        ],
-        "icon-allow-overlap": true
-      }
+        "icon-rotation-alignment": "auto",
+        "symbol-z-order": "auto",
+        "text-allow-overlap": false,
+        "text-ignore-placement": false,
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": false,
+        "icon-optional": false,
+        "icon-padding": 0,
+        "icon-size": 1,
+        "icon-image": "toilet"
+      },
+      "paint": {"icon-opacity": {"stops": [[14, 0], [14.5, 1]]}}
     },
     {
       "id": "poi_bicycle_shop",
@@ -678,13 +637,6 @@
         "text-halo-width": 1.2,
         "text-opacity": {"stops": [[10, 0], [10.5, 1], [13.5, 1], [14, 0]]}
       }
-    },
-    {
-      "id": "place_label",
-      "type": "symbol",
-      "source": "thunderforest_outdoors",
-      "source-layer": "place-label",
-      "layout": {"visibility": "none"}
     }
   ],
   "id": "aj5c9or1u"
