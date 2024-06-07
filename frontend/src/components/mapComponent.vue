@@ -133,7 +133,7 @@
                 trackUserPosition();
             });
 
-            this.emitter.on("mapThemeSelected", (themeName) => {
+            this.emitter.on("mapThemeSelected", (themeName: any) => {
                 switch (themeName) {
                     case "dark":
                         map.setStyle('src/assets/style/map/darkStyle_new.json');
@@ -144,9 +144,16 @@
                     default:
                 }
             });
+
+            this.emitter.on("gpxImported", (geoJson: any) => {
+                const source = map.getSource('gpxSource');
+                if (geoJson && source) {
+                    source.setData(geoJson);
+                }
+            });
         },
         methods: {
-        },
+        }
     });
 </script>
 

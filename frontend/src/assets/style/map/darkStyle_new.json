@@ -9,7 +9,8 @@
     "thunderforest_outdoors": {
       "type": "vector",
       "url": "https://tile.thunderforest.com/thunderforest.outdoors-v2.json?apikey=7f778fb97d3e4016a477c7b12a60cbf5"
-    }
+    },
+    "gpxSource": {"type": "geojson", "data": {}}
   },
   "sprite": "https://raw.githubusercontent.com/RiccardoOmiccioli/bike-copilot/main/frontend/public/sprites/sprites",
   "glyphs": "https://orangemug.github.io/font-glyphs/glyphs/{fontstack}/{range}.pbf",
@@ -411,6 +412,52 @@
         "line-opacity": {"stops": [[7, 0], [8, 1]]},
         "line-width": {"stops": [[12, 1], [18, 6]]}
       }
+    },
+    {
+      "id": "gpx-track-outline",
+      "type": "line",
+      "source": "gpxSource",
+      "minzoom": 8,
+      "filter": ["all", ["==", "gpx_type", "trkseg"]],
+      "paint": {
+        "line-color": "rgba(128, 128, 128, 1)",
+        "line-width": {"stops": [[8, 4], [18, 12]]},
+        "line-opacity": {"stops": [[8, 0], [8.5, 1]]}
+      }
+    },
+    {
+      "id": "gpx-track",
+      "type": "line",
+      "source": "gpxSource",
+      "minzoom": 8,
+      "filter": ["all", ["==", "gpx_type", "trkseg"]],
+      "paint": {
+        "line-color": "rgba(230, 230, 230, 1)",
+        "line-width": {"stops": [[8, 2], [18, 8]]},
+        "line-opacity": {"stops": [[8, 0], [8.5, 1]]}
+      }
+    },
+    {
+      "id": "gpx-waypoint",
+      "type": "symbol",
+      "source": "gpxSource",
+      "minzoom": 8,
+      "filter": ["all", ["==", "gpx_type", "wpt"]],
+      "layout": {
+        "text-field": "",
+        "visibility": "visible",
+        "icon-rotation-alignment": "auto",
+        "symbol-z-order": "auto",
+        "text-allow-overlap": false,
+        "text-ignore-placement": false,
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": false,
+        "icon-optional": false,
+        "icon-padding": 0,
+        "icon-image": "waypoint",
+        "icon-size": 1
+      },
+      "paint": {"icon-opacity": {"stops": [[8, 0], [8.25, 1]]}}
     },
     {
       "id": "poi-bar",

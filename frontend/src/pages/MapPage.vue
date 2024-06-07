@@ -3,10 +3,11 @@
   import mapComponent from "../components/mapComponent.vue";
   import islandContainer from "../components/containers/islandContainer.vue";
   import zoomLevelVisualizer from "../components/zoomLevelVisualizer.vue";
+  import gpxImportComponent from "../components/gpxImportComponent.vue";
   import menuComponent from "../components/menuComponent.vue";
 
   export default defineComponent({
-    components: { mapComponent, menuComponent, islandContainer, zoomLevelVisualizer },
+    components: { mapComponent, menuComponent, islandContainer, zoomLevelVisualizer, gpxImportComponent},
     data() {
       return {
       };
@@ -45,7 +46,7 @@
     <islandContainer class="main-island">
       <span class="material-symbols-outlined" @click="this.emitter.emit('changeMapView')">assistant_navigation</span>
       <span class="material-symbols-outlined" @click="this.emitter.emit('toggleMenu')">expand_circle_up</span>
-      <span class="material-symbols-outlined">add_circle</span>
+      <gpxImportComponent></gpxImportComponent>
     </islandContainer>
     <div class="footer">
       <zoomLevelVisualizer></zoomLevelVisualizer>
