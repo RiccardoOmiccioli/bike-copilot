@@ -4,10 +4,11 @@
   import islandContainer from "../components/containers/islandContainer.vue";
   import zoomLevelVisualizer from "../components/zoomLevelVisualizer.vue";
   import gpxImportComponent from "../components/gpxImportComponent.vue";
+  import rideInfoComponent from "../components/rideInfoComponent.vue";
   import menuComponent from "../components/menuComponent.vue";
 
   export default defineComponent({
-    components: { mapComponent, menuComponent, islandContainer, zoomLevelVisualizer, gpxImportComponent},
+    components: { mapComponent, menuComponent, islandContainer, zoomLevelVisualizer, gpxImportComponent, rideInfoComponent},
     data() {
       return {
       };
@@ -48,6 +49,9 @@
       <span class="material-symbols-outlined" @click="this.emitter.emit('toggleMenu')">expand_circle_up</span>
       <gpxImportComponent></gpxImportComponent>
     </islandContainer>
+    <islandContainer class="ride-info-island">
+      <rideInfoComponent></rideInfoComponent>
+    </islandContainer>
     <div class="footer">
       <zoomLevelVisualizer></zoomLevelVisualizer>
     </div>
@@ -72,6 +76,14 @@
     margin: 0;
   }
 
+  .ride-info-island {
+    position: absolute;
+    top: var(--micro);
+    right: 50%;
+    transform: translate(+50%);
+    margin: 0;
+  }
+
   .footer {
     width: 100%;
     display: flex;
@@ -89,7 +101,15 @@
       left: var(--micro);
     }
 
-    div.island.main-island {
+    .ride-info-island {
+      transform: unset;
+      top: unset;
+      right: var(--micro);
+      bottom: calc(3 * var(--micro));
+    }
+
+
+    div.island.main-island, div.island.ride-info-island {
       flex-direction: column;
     }
   }

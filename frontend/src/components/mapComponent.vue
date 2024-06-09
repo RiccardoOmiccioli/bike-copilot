@@ -65,6 +65,7 @@
                 if (navigator.geolocation) {
                     navigator.geolocation.watchPosition(
                         (position) => {
+                            this.emitter.emit("positionChanged", position.coords);
                             if (position.coords.heading != null && position.coords.heading != userPosition.heading) {
                                 userPosition.heading = position.coords.heading;
                             }

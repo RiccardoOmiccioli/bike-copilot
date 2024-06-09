@@ -9,9 +9,6 @@
         props: {
         },
         mounted() {
-            this.emitter.on('zoomChanged', (zoomPercentage) => {
-                this.currentZoomPercentage = zoomPercentage;
-            });
         },
         methods: {
             triggerInput() {
