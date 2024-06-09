@@ -129,6 +129,9 @@
 
     #soil-moisture-chart {
         width: 100%;
+        display: flex;
+        align-content: center;
+        justify-content: center;
         background-color: var(--neutral-000);
     }
 </style>

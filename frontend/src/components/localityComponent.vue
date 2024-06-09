@@ -39,5 +39,6 @@
 <style lang="scss" scoped>
     .locality-text-field {
         width: calc(100% - 2 * var(--large));
+        max-width: 30rem;
     }
 </style>
