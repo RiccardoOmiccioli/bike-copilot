@@ -13,8 +13,8 @@
         },
         mounted() {
             this.emitter.on('positionChanged', (coords) => {
-                this.speedValue = Math.round(coords.speed??0/3.6);
-                this.altitudeValue = coords.altitude??0;
+                this.speedValue = Math.round((coords.speed??0)/3.6);
+                this.altitudeValue = Math.round(coords.altitude??0);
             });
         },
         methods: {
