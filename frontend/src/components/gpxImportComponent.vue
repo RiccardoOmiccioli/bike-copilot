@@ -44,28 +44,27 @@
                     type: "FeatureCollection",
                     features: []
                 };
-
                 // Waypoints (wpt)
                 const waypoints = xmlDoc.getElementsByTagName("wpt");
                 for (let i = 0; i < waypoints.length; i++) {
                     const wpt = waypoints[i];
-                const lat = parseFloat(wpt.getAttribute("lat") || "0");
-                const lon = parseFloat(wpt.getAttribute("lon") || "0");
-                const ele = parseFloat(wpt.getElementsByTagName("ele")[0]?.textContent || "0");
-                geoJson.features.push({
-                    type: "Feature",
-                    geometry: {
-                        type: "Point",
-                        coordinates: [lon, lat, ele]
-                    },
-                    properties: {
-                        gpx_type: "wpt",
-                        name: wpt.getElementsByTagName("name")[0]?.textContent || "",
-                        desc: wpt.getElementsByTagName("desc")[0]?.textContent || ""
-                    }
-                });
+                    const lat = parseFloat(wpt.getAttribute("lat") || "0");
+                    const lon = parseFloat(wpt.getAttribute("lon") || "0");
+                    const ele = parseFloat(wpt.getElementsByTagName("ele")[0]?.textContent || "0");
+                    geoJson.features.push({
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: [lon, lat]
+                        },
+                        properties: {
+                            gpx_type: "wpt",
+                            name: wpt.getElementsByTagName("name")[0]?.textContent || "",
+                            description: wpt.getElementsByTagName("desc")[0]?.textContent || "",
+                            elevation: ele
+                        }
+                    });
                 }
-
                 // Tracks (trk)
                 const tracks = xmlDoc.getElementsByTagName("trk");
                 for (let i = 0; i < tracks.length; i++) {
@@ -79,8 +78,7 @@
                             const trkpt = trkpts[k];
                             const lat = parseFloat(trkpt.getAttribute("lat") || "0");
                             const lon = parseFloat(trkpt.getAttribute("lon") || "0");
-                            const ele = parseFloat(trkpt.getElementsByTagName("ele")[0]?.textContent || "0");
-                            coordinates.push([lon, lat, ele]);
+                            coordinates.push([lon, lat]);
                         }
                         geoJson.features.push({
                             type: "Feature",
@@ -91,7 +89,7 @@
                             properties: {
                                 gpx_type: "trkseg",
                                 name: trk.getElementsByTagName("name")[0]?.textContent || "",
-                                desc: trk.getElementsByTagName("desc")[0]?.textContent || ""
+                                description: trk.getElementsByTagName("desc")[0]?.textContent || ""
                             }
                         });
                     }
