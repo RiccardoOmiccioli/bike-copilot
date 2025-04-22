@@ -1,13 +1,25 @@
 {
-    "name": "bike-copilot",
-    "version": "0.0.0",
-    "scripts": {
-        "start": "docker-compose -f docker-compose.yml up --build --remove-orphans --detach",
-        "stop": "docker-compose down",
-        "clean-image": "npm stop && docker image prune -af",
-        "clean-system": "npm stop && docker system prune -f",
-        "clean-volume": "npm stop && docker volume prune -f",
-        "clean-all": "npm run clean-image && npm run clean-system && npm run clean-volume",
-        "restart": "npm stop && npm run clean-image && npm start"
-    }
+  "name": "bike-copilot-frontend",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@observablehq/plot": "^0.6.13",
+    "axios": "^1.6.4",
+    "d3": "^7.8.5",
+    "maplibre-gl": "^3.5.2",
+    "mitt": "^3.0.1",
+    "openmeteo": "^1.1.3",
+    "sass": "^1.69.5",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.3",
+    "vite": "^6.3.2"
+  }
 }
