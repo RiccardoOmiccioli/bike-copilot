@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="js">
     import {defineComponent} from "vue";
     import maplibregl from "maplibre-gl";
 
@@ -44,8 +44,8 @@
                 const start = { lng: userLocationMarker.getLngLat().lng, lat: userLocationMarker.getLngLat().lat, heading: userLocationMarker.getRotation() };
                 const end = { lng: userPosition.longitude, lat: userPosition.latitude, heading: userPosition.heading };
                 const duration = 500;
-                let startTime: number = 0;
-                function step(timestamp: number) {
+                let startTime = 0;
+                function step(timestamp) {
                     if (!startTime) startTime = timestamp;
                     const progress = Math.min((timestamp - startTime) / duration, 1);
                     const currentLng = start.lng + (end.lng - start.lng) * progress;
@@ -134,7 +134,7 @@
                 trackUserPosition();
             });
 
-            this.emitter.on("mapThemeSelected", (themeName: any) => {
+            this.emitter.on("mapThemeSelected", (themeName) => {
                 switch (themeName) {
                     case "dark":
                         map.setStyle('src/assets/style/map/darkStyle_new.json');
@@ -146,7 +146,7 @@
                 }
             });
 
-            this.emitter.on("gpxImported", (geoJson: any) => {
+            this.emitter.on("gpxImported", (geoJson) => {
                 const source = map.getSource('gpxSource');
                 if (geoJson && source) {
                     source.setData(geoJson);

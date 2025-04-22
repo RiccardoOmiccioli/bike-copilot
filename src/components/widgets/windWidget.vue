@@ -1,7 +1,6 @@
-<script lang="ts">
+<script lang="js">
     import {defineComponent} from "vue";
     import * as Plot from "@observablehq/plot";
-    import {WeatherData} from "../../model/WeatherData"
 
     export default defineComponent({
         components: {},
@@ -16,12 +15,12 @@
             const element = document.getElementById("wind-chart");
             element?.append(this.plot);
 
-            this.emitter.on("weatherUpdateCompleted", (weatherData: WeatherData) => {
+            this.emitter.on("weatherUpdateCompleted", (weatherData) => {
                 this.drawChart(weatherData);
             })
         },
         methods: {
-            drawChart(weatherData: WeatherData) {
+            drawChart(weatherData) {
                 const element = document.getElementById("wind-chart");
                 element?.removeChild(this.plot);
                 this.plot = Plot.plot({

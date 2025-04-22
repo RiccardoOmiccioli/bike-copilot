@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="js">
   import { defineComponent } from "vue";
   import router from "./router";
 

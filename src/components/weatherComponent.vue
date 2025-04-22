@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="js">
     import {defineComponent} from "vue";
     import {fetchWeatherApi} from "openmeteo";
     import temperatureWidget from "./widgets/temperatureWidget.vue"
@@ -9,7 +9,7 @@
 
     const url = "https://api.open-meteo.com/v1/forecast";
 
-    const range = (start: number, stop: number, step: number) => Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
+    const range = (start, stop, step) => Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
 
     export default defineComponent({
         components: { temperatureWidget, windWidget, soilMoistureWidget, sunlightWidget },
@@ -37,7 +37,7 @@
                 this.updateWeather();
             });
 
-            this.emitter.on('localitySearched', (locality: String) => {
+            this.emitter.on('localitySearched', (locality) => {
                 this.locality = String(locality);
                 this.updateWeather();
             });
@@ -50,44 +50,44 @@
                         // const timezone = response.timezone();
                         // const timezoneAbbreviation = response.timezoneAbbreviation();
 
-                        const hourly = response.hourly()!;
-                        const daily = response.daily()!;
+                        const hourly = response.hourly();
+                        const daily = response.daily();
 
                         let weatherData = {
                             hourly: {
                                 time: range(Number(hourly.time()), Number(hourly.timeEnd()), hourly.interval()).map(
                                     (t) => new Date((t + utcOffsetSeconds) * 1000)
                                 ),
-                                temperature2m: hourly.variables(0)!.valuesArray()!,
-                                relativeHumidity2m: hourly.variables(1)!.valuesArray()!,
-                                apparentTemperature: hourly.variables(2)!.valuesArray()!,
-                                precipitationProbability: hourly.variables(3)!.valuesArray()!,
-                                precipitation: hourly.variables(4)!.valuesArray()!,
-                                windSpeed10m: hourly.variables(5)!.valuesArray()!,
-                                windSpeed80m: hourly.variables(6)!.valuesArray()!,
-                                windSpeed120m: hourly.variables(7)!.valuesArray()!,
-                                windSpeed180m: hourly.variables(8)!.valuesArray()!,
-                                windDirection10m: hourly.variables(9)!.valuesArray()!,
-                                windDirection80m: hourly.variables(10)!.valuesArray()!,
-                                windDirection120m: hourly.variables(11)!.valuesArray()!,
-                                windDirection180m: hourly.variables(12)!.valuesArray()!,
-                                temperature80m: hourly.variables(13)!.valuesArray()!,
-                                temperature120m: hourly.variables(14)!.valuesArray()!,
-                                temperature180m: hourly.variables(15)!.valuesArray()!,
-                                soilMoisture0To1cm: hourly.variables(16)!.valuesArray()!,
-                                soilMoisture1To3cm: hourly.variables(17)!.valuesArray()!,
-                                soilMoisture3To9cm: hourly.variables(18)!.valuesArray()!,
-                                soilMoisture9To27cm: hourly.variables(19)!.valuesArray()!,
-                                isDay: hourly.variables(20)!.valuesArray()!,
-                                directRadiation: hourly.variables(21)!.valuesArray()!,
-                                diffuseRadiation: hourly.variables(22)!.valuesArray()!,
+                                temperature2m: hourly.variables(0).valuesArray(),
+                                relativeHumidity2m: hourly.variables(1).valuesArray(),
+                                apparentTemperature: hourly.variables(2).valuesArray(),
+                                precipitationProbability: hourly.variables(3).valuesArray(),
+                                precipitation: hourly.variables(4).valuesArray(),
+                                windSpeed10m: hourly.variables(5).valuesArray(),
+                                windSpeed80m: hourly.variables(6).valuesArray(),
+                                windSpeed120m: hourly.variables(7).valuesArray(),
+                                windSpeed180m: hourly.variables(8).valuesArray(),
+                                windDirection10m: hourly.variables(9).valuesArray(),
+                                windDirection80m: hourly.variables(10).valuesArray(),
+                                windDirection120m: hourly.variables(11).valuesArray(),
+                                windDirection180m: hourly.variables(12).valuesArray(),
+                                temperature80m: hourly.variables(13).valuesArray(),
+                                temperature120m: hourly.variables(14).valuesArray(),
+                                temperature180m: hourly.variables(15).valuesArray(),
+                                soilMoisture0To1cm: hourly.variables(16).valuesArray(),
+                                soilMoisture1To3cm: hourly.variables(17).valuesArray(),
+                                soilMoisture3To9cm: hourly.variables(18).valuesArray(),
+                                soilMoisture9To27cm: hourly.variables(19).valuesArray(),
+                                isDay: hourly.variables(20).valuesArray(),
+                                directRadiation: hourly.variables(21).valuesArray(),
+                                diffuseRadiation: hourly.variables(22).valuesArray(),
                             },
                             daily: {
                                 time: range(Number(daily.time()), Number(daily.timeEnd()), daily.interval()).map(
                                     (t) => new Date((t + utcOffsetSeconds) * 1000)
                                 ),
-                                sunrise: daily.variables(0)!.valuesArray()!,
-		                        sunset: daily.variables(1)!.valuesArray()!,
+                                sunrise: daily.variables(0).valuesArray(),
+		                        sunset: daily.variables(1).valuesArray(),
 	                        },
                         }
                         console.log(weatherData);

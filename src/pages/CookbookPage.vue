@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="js">
   import { defineComponent } from "vue";
   import filledButton from "../components/buttons/filledButton.vue";
   import outlinedButton from "../components/buttons/outlinedButton.vue";
@@ -16,11 +16,11 @@
       };
     },
     methods:{
-      handleTextField(value: String) {
+      handleTextField(value) {
         console.log(value);
         this.inputTextValue = "Changed";
       },
-      handleTextField2(value: String) {
+      handleTextField2(value) {
         console.log("2 " + value);
       }
     },

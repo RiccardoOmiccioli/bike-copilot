@@ -1,6 +1,6 @@
-<script lang="ts">
+<script lang="js">
   import { defineComponent } from "vue";
-  import router from "./router";
+  import router from "../router";
   import filledButton from "../components/buttons/filledButton.vue";
 
   export default defineComponent({
@@ -32,7 +32,7 @@
   <main>
       <div class="info-container">
         <div class="info">
-          <img src="../../public/logo_dark_round.svg" alt="logo" id="logo">
+          <img src="/logo_dark_round.svg" alt="logo" id="logo">
           <div>
             <p>Welcome to Bike Copilot - a free tool developed by a passionate mountain biker to be your digital guide, providing the information you need during rides or route planning.
               Check the world using the provided maps designed for cycling and outdoor exploration.

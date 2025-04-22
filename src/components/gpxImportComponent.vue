@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="js">
     import {defineComponent} from "vue";
 
     export default defineComponent({
@@ -12,19 +12,19 @@
         },
         methods: {
             triggerInput() {
-                const gpxInput = this.$refs.gpxInput as HTMLInputElement;
+                const gpxInput = this.$refs.gpxInput;
                 gpxInput.click();
             },
-            handleFileChange(event: Event) {
-                const input = event.target as HTMLInputElement;
+            handleFileChange(event) {
+                const input = event.target;
                 if (input.files && input.files.length > 0) {
                     const file = input.files[0];
                     this.readFile(file);
                 }
             },
-            readFile(file: File) {
+            readFile(file) {
                 const reader = new FileReader();
-                reader.onload = (event: ProgressEvent<FileReader>) => {
+                reader.onload = (event) => {
                     const fileContent = event.target?.result;
                     if (fileContent) {
                         const geoJson = this.parseGpx(fileContent);
@@ -33,7 +33,7 @@
                 };
                 reader.readAsText(file);
             },
-            parseGpx(gpxContent: string) {
+            parseGpx(gpxContent) {
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(gpxContent, "application/xml");
 

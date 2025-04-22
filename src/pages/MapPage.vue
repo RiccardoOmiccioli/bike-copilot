@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="js">
   import { defineComponent } from "vue";
   import mapComponent from "../components/mapComponent.vue";
   import islandContainer from "../components/containers/islandContainer.vue";

@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="js">
     import {defineComponent} from "vue";
     import segmentedButton from "./buttons/segmentedButton.vue";
     import localityComponent from "./localityComponent.vue";

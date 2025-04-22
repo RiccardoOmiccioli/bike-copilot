@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="js">
     import {defineComponent} from "vue";
 
     export default defineComponent({
@@ -10,9 +10,9 @@
                 initialAlpha: 0,
                 initialBeta: 0,
                 initialGamma: 0,
-                currentAlpha: null as number | null,
-                currentBeta: null as number | null,
-                currentGamma: null as number | null
+                currentAlpha: null,
+                currentBeta: null,
+                currentGamma: null
             }
         },
         props: {
@@ -28,7 +28,7 @@
                 this.initialGamma = this.currentGamma??0;
                 this.gradientValue = 0;
             },
-            handleOrientation(event: DeviceOrientationEvent) {
+            handleOrientation(event) {
                 this.currentAlpha = event.alpha ?? 0;
                 this.currentBeta = event.beta ?? 0;
                 this.currentGamma = event.gamma ?? 0;
@@ -42,7 +42,7 @@
                 }
                 this.gradientValue = Math.max(-999, Math.min(999, Math.round(gradient)));
             },
-            handlePositionChange(coords: { speed?: number, altitude?: number }) {
+            handlePositionChange(coords) {
                 this.speedValue = Math.round((coords.speed ?? 0) * 3.6);
                 this.altitudeValue = Math.round(coords.altitude ?? 0);
             }

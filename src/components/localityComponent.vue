@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="js">
     import {defineComponent} from "vue";
     import outlinedTextField from "./textFields/outlinedTextField.vue";
     import axios from "axios";
@@ -25,7 +25,7 @@
             });
         },
         methods: {
-            searchLocality(value: String) {
+            searchLocality(value) {
                 this.emitter.emit('localitySearched', value);
             }
         },
