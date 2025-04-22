@@ -20,7 +20,7 @@
 </script>
 
 <template>
-    <button class="button" @click=this??onClick>
+    <button class="button" @click=this.onClick>
         <slot></slot>
     </button>
 </template>

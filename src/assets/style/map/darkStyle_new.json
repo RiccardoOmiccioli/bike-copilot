@@ -12,7 +12,7 @@
     },
     "gpxSource": {"type": "geojson", "data": {}}
   },
-  "sprite": "https://raw.githubusercontent.com/RiccardoOmiccioli/bike-copilot/main/frontend/public/sprites/sprites",
+  "sprite": "https://raw.githubusercontent.com/RiccardoOmiccioli/bike-copilot/main/public/sprites/sprites",
   "glyphs": "https://orangemug.github.io/font-glyphs/glyphs/{fontstack}/{range}.pbf",
   "layers": [
     {
