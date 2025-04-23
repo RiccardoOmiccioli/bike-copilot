@@ -55,6 +55,7 @@
           <h2>Map usage</h2>
           <img src="../assets/image/dark_theme_info.svg" alt="dark theme map guide">
         </div>
+        <filledButton @click="$router.push('/cookbook')">Cookbook</filledButton>
       </div>
   </main>
 </template>
@@ -77,6 +78,7 @@
   }
 
   .info {
+    max-width: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;

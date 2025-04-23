@@ -26,7 +26,7 @@
 
             let map = new maplibregl.Map({
                 container: 'map',
-                style: 'src/assets/style/map/darkStyle_new.json',
+                style: '/map/darkStyle_new.json',
                 center: [12.516667, 42.516667],
                 zoom: 6,
                 minZoom: 2,
@@ -137,10 +137,10 @@
             this.emitter.on("mapThemeSelected", (themeName) => {
                 switch (themeName) {
                     case "dark":
-                        map.setStyle('src/assets/style/map/darkStyle_new.json');
+                        map.setStyle('/map/darkStyle_new.json');
                         break;
                     case "outdoor":
-                        map.setStyle('src/assets/style/map/outdoorStyle.json');
+                        map.setStyle('/map/outdoorStyle.json');
                         break;
                     default:
                 }

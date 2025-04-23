@@ -92,9 +92,24 @@
         border-color: var(--primary-030);
         font-size: large;
         color: var(--primary-090);
+
+        cursor: pointer;
+
+        transition: background-color 0.2s ease, color 0.2s ease;
+
+        &:hover {
+            background-color: var(--primary-020);
+            color: var(--primary-100);
+        }
     }
 
     .controls div input[type="radio"]:checked + label {
         background-color: var(--primary-030);
+
+        transition: background-color 0.2s ease;
+
+        &:hover {
+            background-color: var(--primary-040);
+        }
     }
 </style>

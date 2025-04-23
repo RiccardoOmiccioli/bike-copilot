@@ -38,5 +38,14 @@
         border-radius: 100px;
         font-size: large;
         color: var(--primary-090);
+        cursor: pointer;
+
+        transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+
+        &:hover {
+            background-color: var(--primary-040);
+            border-color: var(--primary-040);
+            color: var(--primary-100);
+        }
     }
 </style>
